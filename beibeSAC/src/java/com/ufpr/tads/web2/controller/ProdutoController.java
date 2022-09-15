@@ -1,43 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.ufpr.tads.web2.servlets;
-
+package com.ufpr.tads.web2.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
-import com.ufpr.tads.web2.beans.CategoriaProduto;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import com.ufpr.tads.web2.beans.CategoriaProdutoBean;
 import com.ufpr.tads.web2.beans.LoginBean;
-import com.ufpr.tads.web2.beans.Produto;
+import com.ufpr.tads.web2.beans.ProdutoBean;
 import com.ufpr.tads.web2.facade.CategoriaProdutoException;
 import com.ufpr.tads.web2.facade.CategoriaProdutoFacade;
 import com.ufpr.tads.web2.facade.ProdutoException;
 import com.ufpr.tads.web2.facade.ProdutoFacade;
 
-@WebServlet(name = "ProdutoServlet", urlPatterns = { "/ProdutoServlet" })
-public class ProdutoServlet extends HttpServlet {
+@WebServlet(name = "ProdutoController", urlPatterns = { "/ProdutoController" })
+public class ProdutoController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request  servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -51,7 +34,7 @@ public class ProdutoServlet extends HttpServlet {
             if (logado.getNome() != null) {
                 if (action == null || action.equals("listarProdutos")) {
                     try {
-                        List<Produto> listaProdutos = ProdutoFacade.getLista();
+                        List<ProdutoBean> listaProdutos = ProdutoFacade.getLista();
                         if (listaProdutos.size() > 0) {
                             request.setAttribute("listaProdutos", listaProdutos);
                         }
@@ -68,10 +51,10 @@ public class ProdutoServlet extends HttpServlet {
                     try {
                         String idProduto = request.getParameter("idProduto");
                         if (idProduto != null) {
-                            Produto produto = ProdutoFacade.retornaProduto(Integer.parseInt(idProduto));
+                            ProdutoBean produto = ProdutoFacade.retornaProduto(Integer.parseInt(idProduto));
                             request.setAttribute("produto", produto);
                         }
-                        List<CategoriaProduto> categorias = CategoriaProdutoFacade.getLista();
+                        List<CategoriaProdutoBean> categorias = CategoriaProdutoFacade.getLista();
                         request.setAttribute("categorias", categorias);
                         RequestDispatcher rd = sc.getRequestDispatcher("/funcionario/produto/produtoForm.jsp");
                         rd.forward(request, response);
@@ -82,16 +65,16 @@ public class ProdutoServlet extends HttpServlet {
                     }
                 } else if (action.equals("new")) {
                     try {
-                        Produto produto = new Produto();
+                        ProdutoBean produto = new ProdutoBean();
                         produto.setNome(request.getParameter("nome"));
                         produto.setDescricao(request.getParameter("descricao"));
                         produto.setPeso(Float.parseFloat(request.getParameter("peso")));
                         produto.setPreco(Float.parseFloat(request.getParameter("preco")));
-                        CategoriaProduto categoria = CategoriaProdutoFacade
+                        CategoriaProdutoBean categoria = CategoriaProdutoFacade
                                 .retornaCategoria(Integer.parseInt(request.getParameter("categoria")));
                         produto.setCategoria(categoria);
                         ProdutoFacade.adicionaProduto(produto);
-                        response.sendRedirect(request.getContextPath() + "/ProdutoServlet?action=listarProdutos");
+                        response.sendRedirect(request.getContextPath() + "/ProdutoController?action=listarProdutos");
                     } catch (CategoriaProdutoException | ProdutoException e) {
                         request.setAttribute("msg", "ERRO: " + e.getMessage());
                         RequestDispatcher rd = sc.getRequestDispatcher("/erro.jsp");
@@ -99,17 +82,17 @@ public class ProdutoServlet extends HttpServlet {
                     }
                 } else if (action.equals("update")) {
                     try {
-                        Produto produto = new Produto();
+                        ProdutoBean produto = new ProdutoBean();
                         produto.setIdProduto(Integer.parseInt(request.getParameter("idProduto")));
                         produto.setNome(request.getParameter("nome"));
                         produto.setDescricao(request.getParameter("descricao"));
                         produto.setPeso(Float.parseFloat(request.getParameter("peso")));
                         produto.setPreco(Float.parseFloat(request.getParameter("preco")));
-                        CategoriaProduto categoria = CategoriaProdutoFacade
+                        CategoriaProdutoBean categoria = CategoriaProdutoFacade
                                 .retornaCategoria(Integer.parseInt(request.getParameter("categoria")));
                         produto.setCategoria(categoria);
                         ProdutoFacade.modificaProduto(produto);
-                        response.sendRedirect(request.getContextPath() + "/ProdutoServlet?action=listarProdutos");
+                        response.sendRedirect(request.getContextPath() + "/ProdutoController?action=listarProdutos");
                     } catch (CategoriaProdutoException | ProdutoException e) {
                         request.setAttribute("msg", "ERRO: " + e.getMessage());
                         RequestDispatcher rd = sc.getRequestDispatcher("/erro.jsp");
@@ -118,10 +101,10 @@ public class ProdutoServlet extends HttpServlet {
                 } else if (action.equals("delete")) {
                     try {
                         int idProduto = Integer.parseInt(request.getParameter("idProduto"));
-                        Produto produto = new Produto();
+                        ProdutoBean produto = new ProdutoBean();
                         produto.setIdProduto(idProduto);
                         ProdutoFacade.removerProduto(produto);
-                        response.sendRedirect(request.getContextPath() + "/ProdutoServlet?action=listarProdutos");
+                        response.sendRedirect(request.getContextPath() + "/ProdutoController?action=listarProdutos");
                     } catch (ProdutoException e) {
                         request.setAttribute("msg", "ERRO: " + e.getMessage());
                         RequestDispatcher rd = sc.getRequestDispatcher("/erro.jsp");
@@ -130,7 +113,7 @@ public class ProdutoServlet extends HttpServlet {
                 } else if (action.equals("show")) {
                     try {
                         int idProduto = Integer.parseInt(request.getParameter("idProduto"));
-                        Produto produto = ProdutoFacade.retornaProduto(idProduto);
+                        ProdutoBean produto = ProdutoFacade.retornaProduto(idProduto);
                         request.setAttribute("produto", produto);
                         RequestDispatcher rd = getServletContext()
                                 .getRequestDispatcher("/funcionario/produto/produtoVisualizar.jsp");

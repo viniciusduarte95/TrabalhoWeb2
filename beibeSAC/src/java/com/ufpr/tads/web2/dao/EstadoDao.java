@@ -5,7 +5,7 @@
  */
 package com.ufpr.tads.web2.dao;
 
-import com.ufpr.tads.web2.beans.Estado;
+import com.ufpr.tads.web2.beans.EstadoBean;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,19 +25,19 @@ public class EstadoDao {
         this.connectionFactory = conFactory;
     }
     
-    public ArrayList<Estado> retornaListaEstados() throws SQLException, ClassNotFoundException
+    public ArrayList<EstadoBean> retornaListaEstados() throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        ArrayList<Estado> estados = new ArrayList<>();
+        ArrayList<EstadoBean> estados = new ArrayList<>();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(select);
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
-                Estado estado = new Estado();
+                EstadoBean estado = new EstadoBean();
                 estado.setId(rs.getInt("idEstado"));
                 estado.setNome(rs.getString("nome"));
                 estado.setSigla(rs.getString("sigla"));
@@ -50,12 +50,12 @@ public class EstadoDao {
         }
     }
     
-    public Estado retornaEstadoPorId(int id) throws SQLException, ClassNotFoundException
+    public EstadoBean retornaEstadoPorId(int id) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        Estado estado = new Estado();
+        EstadoBean estado = new EstadoBean();
         try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectById);

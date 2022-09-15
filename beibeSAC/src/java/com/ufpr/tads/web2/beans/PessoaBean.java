@@ -8,17 +8,17 @@ package com.ufpr.tads.web2.beans;
 import java.io.Serializable;
 
 
-public class Pessoa implements Serializable {
+public class PessoaBean implements Serializable {
     private int idPessoa;
     private String primeiroNome;
     private String sobreNome;
     private long cpf;
-    private Endereco endereco;
+    private EnderecoBean endereco;
     private String telefone;
     
-    public Pessoa() {}
+    public PessoaBean() {}
     
-    public Pessoa(String primeiroNome, String sobreNome, long cpf, Endereco endereco, String telefone){
+    public PessoaBean(String primeiroNome, String sobreNome, long cpf, EnderecoBean endereco, String telefone){
         this.primeiroNome = primeiroNome;
         this.sobreNome    = sobreNome;
         this.cpf          = cpf;
@@ -52,10 +52,10 @@ public class Pessoa implements Serializable {
     public void setCpf(long cpf){
         this.cpf = cpf;
     }
-    public Endereco getEndereco(){
+    public EnderecoBean getEndereco(){
         return this.endereco;
     }
-    public void setEndereco(Endereco endereco){
+    public void setEndereco(EnderecoBean endereco){
         this.endereco = endereco;
     }
     public String getTelefone(){

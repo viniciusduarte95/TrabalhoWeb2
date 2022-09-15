@@ -8,18 +8,18 @@ package com.ufpr.tads.web2.beans;
 import java.io.Serializable;
 
 
-public class Endereco implements Serializable {
+public class EnderecoBean implements Serializable {
     private int idEndereco;
     private String rua;
     private int numero;
     private String complemento;
     private String bairro;
     private int cep;
-    private Cidade cidade;
+    private CidadeBean cidade;
     
-    public Endereco() {}
+    public EnderecoBean() {}
     
-    public Endereco(String rua, int numero, String complemento, String bairro, int cep, Cidade cidade){
+    public EnderecoBean(String rua, int numero, String complemento, String bairro, int cep, CidadeBean cidade){
         this.rua         = rua;
         this.numero      = numero;
         this.complemento = complemento;
@@ -64,10 +64,10 @@ public class Endereco implements Serializable {
     public void setCep(int cep){
         this.cep = cep;
     }
-    public Cidade getCidade(){
+    public CidadeBean getCidade(){
         return this.cidade;
     }
-    public void setCidade(Cidade cidade){
+    public void setCidade(CidadeBean cidade){
         this.cidade = cidade;
     }
             

@@ -1,13 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.ufpr.tads.web2.servlets;
-
+package com.ufpr.tads.web2.controller;
 import java.io.IOException;
 import java.util.List;
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -15,36 +8,30 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
 import com.google.gson.Gson;
-import com.ufpr.tads.web2.beans.Cidade;
-import com.ufpr.tads.web2.beans.Estado;
+import com.ufpr.tads.web2.beans.CidadeBean;
+import com.ufpr.tads.web2.beans.EstadoBean;
 import com.ufpr.tads.web2.facade.CidadeException;
 import com.ufpr.tads.web2.facade.CidadeFacade;
 import com.ufpr.tads.web2.facade.EstadoException;
 import com.ufpr.tads.web2.facade.EstadoFacade;
 
-@WebServlet(name = "AJAXServlet", urlPatterns = { "/AJAXServlet" })
-public class AJAXServlet extends HttpServlet {
+@WebServlet(name = "AJAXController", urlPatterns = { "/AJAXController" })
+public class AJAXController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request  servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
-     */
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        // Apresenta a lista de cidades com base no estado selecionado
         String idEstado = request.getParameter("idEstado");
         ServletContext sc = request.getServletContext();
         try {
-            Estado estado = EstadoFacade.retornaEstado(Integer.parseInt(idEstado));
-            List<Cidade> listaCidades = CidadeFacade.getLista(estado);
-
+            // Para retornar o estado é passado o id do estado selecionado para a facade
+            EstadoBean estado = EstadoFacade.retornaEstado(Integer.parseInt(idEstado));
+            // Pega as informações do estado acima e pesquisa as cidades vinculados a esse estado 
+            List<CidadeBean> listaCidades = CidadeFacade.getLista(estado);
+            // Resultado as cidades vinculadas ao estado
             String json = new Gson().toJson(listaCidades);
 
             response.setContentType("application/json");

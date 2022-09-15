@@ -5,7 +5,7 @@
  */
 package com.ufpr.tads.web2.dao;
 
-import com.ufpr.tads.web2.beans.Produto;
+import com.ufpr.tads.web2.beans.ProdutoBean;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,19 +29,19 @@ public class ProdutoDao {
         this.connectionFactory = conFactory;
     }
     
-    public ArrayList<Produto> retornaListaProdutos() throws SQLException, ClassNotFoundException
+    public ArrayList<ProdutoBean> retornaListaProdutos() throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        ArrayList<Produto> produtos = new ArrayList<>();
+        ArrayList<ProdutoBean> produtos = new ArrayList<>();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(select);
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
-                Produto produto = new Produto();
+                ProdutoBean produto = new ProdutoBean();
                 produto.setIdProduto(rs.getInt("idProduto"));
                 produto.setNome(rs.getString("nome"));
                 produto.setDescricao(rs.getString("descricao"));
@@ -61,7 +61,7 @@ public class ProdutoDao {
         }
     }
     
-    public Produto adicionaProduto(Produto produto) throws SQLException, ClassNotFoundException
+    public ProdutoBean adicionaProduto(ProdutoBean produto) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -92,12 +92,12 @@ public class ProdutoDao {
         }
     }
     
-    public Produto retornaProdutoPorId(int id) throws SQLException, ClassNotFoundException
+    public ProdutoBean retornaProdutoPorId(int id) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        Produto produto = new Produto();
+        ProdutoBean produto = new ProdutoBean();
         try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectById);
@@ -122,7 +122,7 @@ public class ProdutoDao {
         }
     }
     
-    public boolean modificaProduto(Produto produto) throws SQLException, ClassNotFoundException
+    public boolean modificaProduto(ProdutoBean produto) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -145,7 +145,7 @@ public class ProdutoDao {
         }
     }
     
-    public boolean removeProduto(Produto produto) throws SQLException, ClassNotFoundException
+    public boolean removeProduto(ProdutoBean produto) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;

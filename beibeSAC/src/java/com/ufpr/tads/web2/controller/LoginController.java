@@ -1,15 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.ufpr.tads.web2.servlets;
-
+package com.ufpr.tads.web2.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.List;
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -18,15 +11,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import com.ufpr.tads.web2.beans.Atendimento;
-import com.ufpr.tads.web2.beans.Cliente;
-import com.ufpr.tads.web2.beans.Estado;
-import com.ufpr.tads.web2.beans.Funcionario;
-import com.ufpr.tads.web2.beans.Gerente;
+import com.ufpr.tads.web2.beans.AtendimentoBean;
+import com.ufpr.tads.web2.beans.ClienteBean;
+import com.ufpr.tads.web2.beans.EstadoBean;
+import com.ufpr.tads.web2.beans.FuncionarioBean;
+import com.ufpr.tads.web2.beans.GerenteBean;
 import com.ufpr.tads.web2.beans.LoginBean;
-import com.ufpr.tads.web2.beans.Situacao;
-import com.ufpr.tads.web2.beans.TipoAtendimento;
+import com.ufpr.tads.web2.beans.SituacaoBean;
+import com.ufpr.tads.web2.beans.TipoAtendimentoBean;
 import com.ufpr.tads.web2.facade.AtendimentoException;
 import com.ufpr.tads.web2.facade.AtendimentoFacade;
 import com.ufpr.tads.web2.facade.ClienteException;
@@ -44,23 +36,16 @@ import com.ufpr.tads.web2.facade.SituacaoFacade;
 import com.ufpr.tads.web2.facade.TipoAtendimentoException;
 import com.ufpr.tads.web2.facade.TipoAtendimentoFacade;
 
-@WebServlet(name = "LoginServlet", urlPatterns = { "/LoginServlet" })
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "LoginController", urlPatterns = { "/LoginController" })
+public class LoginController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request  servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             request.setCharacterEncoding("UTF-8");
+            
+            // Peg os login e senha passados
             String login = request.getParameter("login");
             String senha = request.getParameter("senha");
             String action = request.getParameter("action");
@@ -70,14 +55,14 @@ public class LoginServlet extends HttpServlet {
             String nomeGerente = null;
 
             ServletContext sc = request.getServletContext();
-
+            
             if (action.equals("logar") && (login == null || senha == null)) {
                 request.setAttribute("msg", "Campos Login e Senha são obrigatórios");
                 RequestDispatcher rd = sc.getRequestDispatcher("/index.jsp");
                 rd.forward(request, response);
             } else if (action.equals("autoCadastro")) {
                 try {
-                    List<Estado> listaEstados = EstadoFacade.getLista();
+                    List<EstadoBean> listaEstados = EstadoFacade.getLista();
                     request.setAttribute("listaEstados", listaEstados);
                     RequestDispatcher rd = sc.getRequestDispatcher("/cliente/autoCadastro.jsp");
 
@@ -89,13 +74,13 @@ public class LoginServlet extends HttpServlet {
                 }
             } else if (action.equals("logar")) {
                 try {
-                    Cliente cliente = ClienteFacade.logaCliente(login, senha);
+                    ClienteBean cliente = ClienteFacade.logaCliente(login, senha);
                     nomeCliente = cliente.getPrimeiroNome();
 
                     if (nomeCliente != null) {
-                        List<Atendimento> listaAtendimentos = AtendimentoFacade.getListaPorCliente(cliente);
+                        List<AtendimentoBean> listaAtendimentos = AtendimentoFacade.getListaPorCliente(cliente);
                         if (listaAtendimentos.size() > 0) {
-                            Collections.sort(listaAtendimentos, (Atendimento a1, Atendimento a2) -> a2
+                            Collections.sort(listaAtendimentos, (AtendimentoBean a1, AtendimentoBean a2) -> a2
                                     .getDataHoraInicio().compareTo(a1.getDataHoraInicio()));
                             request.setAttribute("listaAtendimentos", listaAtendimentos);
                         }
@@ -104,7 +89,7 @@ public class LoginServlet extends HttpServlet {
                         HttpSession session = request.getSession();
                         session.setAttribute("logado", loginBean);
 
-                        // Adicionar caminho para portal de Cliente
+                        // Adicionar caminho para portal de ClienteBean
                         RequestDispatcher rd = sc.getRequestDispatcher("/cliente/portalCliente.jsp");
                         rd.forward(request, response);
                     }
@@ -115,14 +100,14 @@ public class LoginServlet extends HttpServlet {
                 }
 
                 try {
-                    Funcionario funcionario = FuncionarioFacade.logaFuncionario(login, senha);
+                    FuncionarioBean funcionario = FuncionarioFacade.logaFuncionario(login, senha);
                     nomeFuncionario = funcionario.getPrimeiroNome();
 
                     if (nomeFuncionario != null) {
-                        Situacao emAberto = SituacaoFacade.retornaSituacao(1);
-                        List<Atendimento> listaAtendimentosAbertos = AtendimentoFacade.getListaPorSituacao(emAberto);
+                        SituacaoBean emAberto = SituacaoFacade.retornaSituacao(1);
+                        List<AtendimentoBean> listaAtendimentosAbertos = AtendimentoFacade.getListaPorSituacao(emAberto);
                         if (listaAtendimentosAbertos.size() > 0) {
-                            Collections.sort(listaAtendimentosAbertos, (Atendimento a1, Atendimento a2) -> a1
+                            Collections.sort(listaAtendimentosAbertos, (AtendimentoBean a1, AtendimentoBean a2) -> a1
                                     .getDataHoraInicio().compareTo(a2.getDataHoraInicio()));
                             request.setAttribute("listaAtendimentosAbertos", listaAtendimentosAbertos);
                         }
@@ -132,7 +117,7 @@ public class LoginServlet extends HttpServlet {
                         HttpSession session = request.getSession();
                         session.setAttribute("logado", loginBean);
 
-                        // Adicionar caminho para portal de Funcionario
+                        // Adicionar caminho para portal de FuncionarioBean
                         RequestDispatcher rd = sc.getRequestDispatcher("/funcionario/portalFuncionario.jsp");
                         rd.forward(request, response);
                     }
@@ -143,7 +128,7 @@ public class LoginServlet extends HttpServlet {
                 }
 
                 try {
-                    Gerente gerente = GerenteFacade.logaGerente(login, senha);
+                    GerenteBean gerente = GerenteFacade.logaGerente(login, senha);
                     nomeGerente = gerente.getPrimeiroNome();
 
                     if (nomeGerente != null) {
@@ -155,21 +140,21 @@ public class LoginServlet extends HttpServlet {
                                 qtdAtendimentos);
                         request.setAttribute("percentualAtendimentosAbertos", percentualAtendimentosAbertos);
 
-                        TipoAtendimento reclamacao = TipoAtendimentoFacade.retornaTipoAtendimento(1);
+                        TipoAtendimentoBean reclamacao = TipoAtendimentoFacade.retornaTipoAtendimento(1);
                         request.setAttribute("reclamacao", reclamacao);
                         int qtdAtendimentosReclamacao = Ferramentas.qtdAtendimentosTipo(reclamacao);
                         request.setAttribute("qtdAtendimentosReclamacao", qtdAtendimentosReclamacao);
                         int qtdAtendimentosAbertosReclamacao = Ferramentas.qtdAtendimentosAbertosTipo(reclamacao);
                         request.setAttribute("qtdAtendimentosAbertosReclamacao", qtdAtendimentosAbertosReclamacao);
 
-                        TipoAtendimento elogio = TipoAtendimentoFacade.retornaTipoAtendimento(2);
+                        TipoAtendimentoBean elogio = TipoAtendimentoFacade.retornaTipoAtendimento(2);
                         request.setAttribute("elogio", elogio);
                         int qtdAtendimentosElogio = Ferramentas.qtdAtendimentosTipo(elogio);
                         request.setAttribute("qtdAtendimentosElogio", qtdAtendimentosElogio);
                         int qtdAtendimentosAbertosElogio = Ferramentas.qtdAtendimentosAbertosTipo(elogio);
                         request.setAttribute("qtdAtendimentosAbertosElogio", qtdAtendimentosAbertosElogio);
 
-                        TipoAtendimento sugestao = TipoAtendimentoFacade.retornaTipoAtendimento(3);
+                        TipoAtendimentoBean sugestao = TipoAtendimentoFacade.retornaTipoAtendimento(3);
                         request.setAttribute("sugestao", sugestao);
                         int qtdAtendimentosSugestao = Ferramentas.qtdAtendimentosTipo(sugestao);
                         request.setAttribute("qtdAtendimentosSugestao", qtdAtendimentosSugestao);
@@ -181,7 +166,7 @@ public class LoginServlet extends HttpServlet {
                         HttpSession session = request.getSession();
                         session.setAttribute("logado", loginBean);
 
-                        // Adicionar caminho para portal de Gerente
+                        // Adicionar caminho para portal de GerenteBean
                         RequestDispatcher rd = sc.getRequestDispatcher("/gerente/portalGerente.jsp");
                         rd.forward(request, response);
                     }

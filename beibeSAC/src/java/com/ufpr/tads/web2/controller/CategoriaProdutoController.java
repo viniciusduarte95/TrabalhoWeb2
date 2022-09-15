@@ -1,14 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.ufpr.tads.web2.servlets;
-
+package com.ufpr.tads.web2.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -17,24 +10,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import com.ufpr.tads.web2.beans.CategoriaProduto;
+import com.ufpr.tads.web2.beans.CategoriaProdutoBean;
 import com.ufpr.tads.web2.beans.LoginBean;
 import com.ufpr.tads.web2.facade.CategoriaProdutoException;
 import com.ufpr.tads.web2.facade.CategoriaProdutoFacade;
 
-@WebServlet(name = "CategoriaProdutoServlet", urlPatterns = { "/CategoriaProdutoServlet" })
-public class CategoriaProdutoServlet extends HttpServlet {
+@WebServlet(name = "CategoriaProdutoController", urlPatterns = { "/CategoriaProdutoController" })
+public class CategoriaProdutoController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request  servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -48,7 +31,8 @@ public class CategoriaProdutoServlet extends HttpServlet {
             if (logado.getNome() != null) {
                 if (action == null || action.equals("listarCategorias")) {
                     try {
-                        List<CategoriaProduto> listaCategorias = CategoriaProdutoFacade.getLista();
+                        // mostra a lista de categorias da tela de cadastro de categoria
+                        List<CategoriaProdutoBean> listaCategorias = CategoriaProdutoFacade.getLista();
                         if (listaCategorias.size() > 0) {
                             request.setAttribute("listaCategorias", listaCategorias);
                         }
@@ -59,13 +43,15 @@ public class CategoriaProdutoServlet extends HttpServlet {
                         RequestDispatcher rd = sc.getRequestDispatcher("/erro.jsp");
                         rd.forward(request, response);
                     }
+                    
+                    
                 } else if (action.equals("formCategoriaProduto")) {
                     // Se possuir idCategoria é novo cadastro
                     // Se não é alteração
                     try {
                         String idCategoriaProduto = request.getParameter("idCategoria");
                         if (idCategoriaProduto != null) {
-                            CategoriaProduto categoria = CategoriaProdutoFacade
+                            CategoriaProdutoBean categoria = CategoriaProdutoFacade
                                     .retornaCategoria(Integer.parseInt(idCategoriaProduto));
                             request.setAttribute("categoria", categoria);
                         }
@@ -78,12 +64,14 @@ public class CategoriaProdutoServlet extends HttpServlet {
                         rd.forward(request, response);
                     }
                 } else if (action.equals("new")) {
+                    
+                    //incluir uma categoria de produto nova 
                     try {
-                        CategoriaProduto categoria = new CategoriaProduto();
+                        CategoriaProdutoBean categoria = new CategoriaProdutoBean();
                         categoria.setNome(request.getParameter("nome"));
                         CategoriaProdutoFacade.adicionaCategoria(categoria);
                         response.sendRedirect(
-                                request.getContextPath() + "/CategoriaProdutoServlet?action=listarCategorias");
+                                request.getContextPath() + "/CategoriaProdutoController?action=listarCategorias");
                     } catch (CategoriaProdutoException e) {
                         request.setAttribute("msg", "ERRO: " + e.getMessage());
                         RequestDispatcher rd = sc.getRequestDispatcher("/erro.jsp");
@@ -91,12 +79,13 @@ public class CategoriaProdutoServlet extends HttpServlet {
                     }
                 } else if (action.equals("update")) {
                     try {
-                        CategoriaProduto categoria = new CategoriaProduto();
+                        //Faz a alteração no cadastro de categoria de produto via ID da categoria
+                        CategoriaProdutoBean categoria = new CategoriaProdutoBean();
                         categoria.setIdCategoria(Integer.parseInt(request.getParameter("idCategoria")));
                         categoria.setNome(request.getParameter("nome"));
                         CategoriaProdutoFacade.modificaCategoria(categoria);
                         response.sendRedirect(
-                                request.getContextPath() + "/CategoriaProdutoServlet?action=listarCategorias");
+                                request.getContextPath() + "/CategoriaProdutoController?action=listarCategorias");
                     } catch (CategoriaProdutoException e) {
                         request.setAttribute("msg", "ERRO: " + e.getMessage());
                         RequestDispatcher rd = sc.getRequestDispatcher("/erro.jsp");
@@ -104,12 +93,13 @@ public class CategoriaProdutoServlet extends HttpServlet {
                     }
                 } else if (action.equals("delete")) {
                     try {
+                        // Remove a categoria selecionada pelo ID da categoria
                         int idCategoriaProduto = Integer.parseInt(request.getParameter("idCategoria"));
-                        CategoriaProduto categoria = new CategoriaProduto();
+                        CategoriaProdutoBean categoria = new CategoriaProdutoBean();
                         categoria.setIdCategoria(idCategoriaProduto);
                         CategoriaProdutoFacade.removerCategoria(categoria);
                         response.sendRedirect(
-                                request.getContextPath() + "/CategoriaProdutoServlet?action=listarCategorias");
+                                request.getContextPath() + "/CategoriaProdutoController?action=listarCategorias");
                     } catch (CategoriaProdutoException e) {
                         request.setAttribute("msg", "ERRO: " + e.getMessage());
                         RequestDispatcher rd = sc.getRequestDispatcher("/erro.jsp");
@@ -117,8 +107,9 @@ public class CategoriaProdutoServlet extends HttpServlet {
                     }
                 } else if (action.equals("show")) {
                     try {
+                        // Vizualiza o cadastro da categoria
                         int idCategoriaProduto = Integer.parseInt(request.getParameter("idCategoria"));
-                        CategoriaProduto categoria = CategoriaProdutoFacade.retornaCategoria(idCategoriaProduto);
+                        CategoriaProdutoBean categoria = CategoriaProdutoFacade.retornaCategoria(idCategoriaProduto);
                         request.setAttribute("categoria", categoria);
                         RequestDispatcher rd = getServletContext()
                                 .getRequestDispatcher("/funcionario/categoriaProduto/categoriaProdutoVisualizar.jsp");

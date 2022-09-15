@@ -8,14 +8,14 @@ package com.ufpr.tads.web2.beans;
 import java.io.Serializable;
 
 
-public class Estado implements Serializable {
+public class EstadoBean implements Serializable {
     private int idEstado;
     private String nome;
     private String sigla;
     
-    public Estado() {}
+    public EstadoBean() {}
     
-    public Estado(String nome, String sigla){
+    public EstadoBean(String nome, String sigla){
         this.nome  = nome;
         this.sigla = sigla;
     }

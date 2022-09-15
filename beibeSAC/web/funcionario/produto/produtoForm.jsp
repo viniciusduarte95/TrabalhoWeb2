@@ -2,7 +2,7 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.ufpr.tads.web2.beans.Cliente"%>
+<%@page import="com.ufpr.tads.web2.beans.ClienteBean"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page errorPage = "/erro.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -39,12 +39,12 @@
                  title=" "
                 />
             </div>
-            <a href="${pageContext.request.contextPath}/ProdutoServlet?action=listarProdutos" class="float-right btn btn-danger rounded">Voltar</a>
+            <a href="${pageContext.request.contextPath}/ProdutoController?action=listarProdutos" class="float-right btn btn-danger rounded">Voltar</a>
           </nav>  
         <div class="container">
             <div class="col-md-12"> <br>
             <h2>Produto </h2>
-            <form class="needs-validation shadow-lg p-3 mb-5 bg-body rounded mt-4" action="${pageContext.request.contextPath}/ProdutoServlet?action=${empty produto ? "new" : "update"}" method="post">
+            <form class="needs-validation shadow-lg p-3 mb-5 bg-body rounded mt-4" action="${pageContext.request.contextPath}/ProdutoController?action=${empty produto ? "new" : "update"}" method="post">
                 <c:if test="${!empty produto}">
                     <div class="form-group">
                         <label for="id">Id: </label>

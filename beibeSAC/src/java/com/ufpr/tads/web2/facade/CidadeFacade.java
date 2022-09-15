@@ -5,20 +5,20 @@
  */
 package com.ufpr.tads.web2.facade;
 
-import com.ufpr.tads.web2.beans.Cidade;
-import com.ufpr.tads.web2.beans.Estado;
+import com.ufpr.tads.web2.beans.CidadeBean;
+import com.ufpr.tads.web2.beans.EstadoBean;
 import com.ufpr.tads.web2.dao.CidadeDao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 
 public class CidadeFacade {
-    public static ArrayList<Cidade> getLista(Estado estado) throws CidadeException
+    public static ArrayList<CidadeBean> getLista(EstadoBean estado) throws CidadeException
     {
         try
         {
             CidadeDao cidadeDao = new CidadeDao();
-            ArrayList<Cidade> listaCidades = cidadeDao.retornaListaCidadesPorEstado(estado);
+            ArrayList<CidadeBean> listaCidades = cidadeDao.retornaListaCidadesPorEstado(estado);
             return listaCidades;
         }
         catch(SQLException | ClassNotFoundException e)
@@ -27,12 +27,12 @@ public class CidadeFacade {
         }
     }
     
-    public static Cidade retornaCidade(int id) throws CidadeException
+    public static CidadeBean retornaCidade(int id) throws CidadeException
     {
         try
         {
             CidadeDao cidadeDao = new CidadeDao();
-            Cidade cidade = cidadeDao.retornaCidadePorId(id);
+            CidadeBean cidade = cidadeDao.retornaCidadePorId(id);
             return cidade;
         }
         catch(SQLException | ClassNotFoundException e)

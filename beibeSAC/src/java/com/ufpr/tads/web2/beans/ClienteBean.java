@@ -8,25 +8,24 @@ package com.ufpr.tads.web2.beans;
 import java.io.Serializable;
 
 
-public class Funcionario extends Pessoa implements Serializable{
-    private int idFuncionario;
+public class ClienteBean extends PessoaBean implements Serializable{
+    private int idCliente;
     private String email;
     private String senha;
     
-    public Funcionario() {}
+    public ClienteBean() {}
     
-    public Funcionario(String primeiroNome, String sobreNome, long cpf, Endereco endereco,
+    public ClienteBean(String primeiroNome, String sobreNome, long cpf, EnderecoBean endereco,
                    String telefone, String email, String senha){
         super(primeiroNome, sobreNome, cpf, endereco, telefone);
         this.email = email;
         this.senha = senha;
     }
-    
-    public int getIdFuncionario(){
-        return this.idFuncionario;
+    public int getIdCliente(){
+        return this.idCliente;
     }
-    public void setIdFuncionario(int idFuncionario){
-        this.idFuncionario = idFuncionario;
+    public void setIdCliente(int idCliente){
+        this.idCliente = idCliente;
     }
     public String getEmail(){
         return this.email;

@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.ufpr.tads.web2.servlets;
-
+package com.ufpr.tads.web2.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -19,16 +12,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import com.ufpr.tads.web2.beans.Atendimento;
-import com.ufpr.tads.web2.beans.Cidade;
-import com.ufpr.tads.web2.beans.Cliente;
-import com.ufpr.tads.web2.beans.Endereco;
-import com.ufpr.tads.web2.beans.Estado;
+import com.ufpr.tads.web2.beans.AtendimentoBean;
+import com.ufpr.tads.web2.beans.CidadeBean;
+import com.ufpr.tads.web2.beans.ClienteBean;
+import com.ufpr.tads.web2.beans.EnderecoBean;
+import com.ufpr.tads.web2.beans.EstadoBean;
 import com.ufpr.tads.web2.beans.LoginBean;
-import com.ufpr.tads.web2.beans.Produto;
-import com.ufpr.tads.web2.beans.Situacao;
-import com.ufpr.tads.web2.beans.TipoAtendimento;
+import com.ufpr.tads.web2.beans.ProdutoBean;
+import com.ufpr.tads.web2.beans.SituacaoBean;
+import com.ufpr.tads.web2.beans.TipoAtendimentoBean;
 import com.ufpr.tads.web2.facade.AtendimentoException;
 import com.ufpr.tads.web2.facade.AtendimentoFacade;
 import com.ufpr.tads.web2.facade.CidadeException;
@@ -44,18 +36,9 @@ import com.ufpr.tads.web2.facade.SituacaoFacade;
 import com.ufpr.tads.web2.facade.TipoAtendimentoException;
 import com.ufpr.tads.web2.facade.TipoAtendimentoFacade;
 
-@WebServlet(name = "ClienteServlet", urlPatterns = { "/ClienteServlet" })
-public class ClienteServlet extends HttpServlet {
+@WebServlet(name = "ClienteController", urlPatterns = { "/ClienteController" })
+public class ClienteController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request  servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -70,10 +53,11 @@ public class ClienteServlet extends HttpServlet {
             if (logado.getNome() != null) {
                 if (action == null || action.equals("portal")) {
                     try {
-                        Cliente cliente = ClienteFacade.retornaCliente(logado.getId());
-                        List<Atendimento> listaAtendimentos = AtendimentoFacade.getListaPorCliente(cliente);
+                        // Apresenta a tela inicial do cliente com seus atendimentos tanto abertos quanto fechados
+                        ClienteBean cliente = ClienteFacade.retornaCliente(logado.getId());
+                        List<AtendimentoBean> listaAtendimentos = AtendimentoFacade.getListaPorCliente(cliente);
                         if (listaAtendimentos.size() > 0) {
-                            Collections.sort(listaAtendimentos, (Atendimento a1, Atendimento a2) -> a2
+                            Collections.sort(listaAtendimentos, (AtendimentoBean a1, AtendimentoBean a2) -> a2
                                     .getDataHoraInicio().compareTo(a1.getDataHoraInicio()));
                             request.setAttribute("listaAtendimentos", listaAtendimentos);
                         }
@@ -88,9 +72,10 @@ public class ClienteServlet extends HttpServlet {
                     }
                 } else if (action.equals("mostraAtendimento")) {
                     try {
-                        Atendimento atendimento = AtendimentoFacade
+                        // Apresenta os detalhes do atendimento do cliente 
+                        AtendimentoBean atendimento = AtendimentoFacade
                                 .retornaAtendimento(Integer.parseInt(request.getParameter("idAtendimento")));
-                        Cliente cliente = ClienteFacade.retornaCliente(logado.getId());
+                        ClienteBean cliente = ClienteFacade.retornaCliente(logado.getId());
                         request.setAttribute("cliente", cliente);
                         request.setAttribute("atendimento", atendimento);
 
@@ -103,11 +88,13 @@ public class ClienteServlet extends HttpServlet {
                     }
                 } else if (action.equals("removeAtendimento")) {
                     try {
-                        Atendimento atendimento = AtendimentoFacade
+                        
+                        // Cliente excluir o ticket que ainda não foi solucionado
+                        AtendimentoBean atendimento = AtendimentoFacade
                                 .retornaAtendimento(Integer.parseInt(request.getParameter("idAtendimento")));
 
-                        Situacao emAberto = SituacaoFacade.retornaSituacao(1);
-                        Situacao situacaoAtendimento = atendimento.getSituacao();
+                        SituacaoBean emAberto = SituacaoFacade.retornaSituacao(1);
+                        SituacaoBean situacaoAtendimento = atendimento.getSituacao();
 
                         String sitEmAberto = emAberto.getEstado();
                         String sitAtendimento = situacaoAtendimento.getEstado();
@@ -116,7 +103,7 @@ public class ClienteServlet extends HttpServlet {
                             boolean confirmaRemocao = AtendimentoFacade.removerAtendimento(atendimento);
 
                             if (confirmaRemocao) {
-                                response.sendRedirect(request.getContextPath() + "/ClienteServlet?action=portal");
+                                response.sendRedirect(request.getContextPath() + "/ClienteController?action=portal");
                             } else {
                                 request.setAttribute("msg",
                                         "Erro ao remover atendimento de id: " + atendimento.getIdAtendimento());
@@ -136,9 +123,10 @@ public class ClienteServlet extends HttpServlet {
                     }
                 } else if (action.equals("formNovoAtendimento")) {
                     try {
-                        List<Produto> listaProdutos = ProdutoFacade.getLista();
+                        //apresenta o formulario para incluir um novo atendimento
+                        List<ProdutoBean> listaProdutos = ProdutoFacade.getLista();
                         request.setAttribute("listaProdutos", listaProdutos);
-                        List<TipoAtendimento> listaTipoAtendimento = TipoAtendimentoFacade.getLista();
+                        List<TipoAtendimentoBean> listaTipoAtendimento = TipoAtendimentoFacade.getLista();
                         request.setAttribute("listaTipoAtendimento", listaTipoAtendimento);
 
                         RequestDispatcher rd = sc.getRequestDispatcher("/cliente/novoAtendimento.jsp");
@@ -150,21 +138,22 @@ public class ClienteServlet extends HttpServlet {
                     }
                 } else if (action.equals("novoAtendimento")) {
                     try {
-                        Atendimento atendimento = new Atendimento();
+                        // Insere o novo atendimento do formulario acima 
+                        AtendimentoBean atendimento = new AtendimentoBean();
 
-                        Cliente cliente = ClienteFacade.retornaCliente(logado.getId());
+                        ClienteBean cliente = ClienteFacade.retornaCliente(logado.getId());
                         atendimento.setCliente(cliente);
-                        Produto produto = ProdutoFacade
+                        ProdutoBean produto = ProdutoFacade
                                 .retornaProduto(Integer.parseInt(request.getParameter("idProduto")));
                         atendimento.setProduto(produto);
-                        TipoAtendimento tipoAtendimento = TipoAtendimentoFacade
+                        TipoAtendimentoBean tipoAtendimento = TipoAtendimentoFacade
                                 .retornaTipoAtendimento(Integer.parseInt(request.getParameter("idTipoAtendimento")));
                         atendimento.setTipoAtendimento(tipoAtendimento);
 
                         atendimento.setDataHoraInicio(Calendar.getInstance());
                         atendimento.setReclamacao(request.getParameter("reclamacao"));
 
-                        Atendimento novoAtendimento = AtendimentoFacade.adicionaAtendimento(atendimento);
+                        AtendimentoBean novoAtendimento = AtendimentoFacade.adicionaAtendimento(atendimento);
 
                         if (novoAtendimento != null) {
                             if (novoAtendimento.getTipoAtendimento().getIdTipo() == 2) {
@@ -173,7 +162,7 @@ public class ClienteServlet extends HttpServlet {
                                 produto.setQtdReclamacoes(qtdReclamacoes);
                                 boolean modificou = ProdutoFacade.modificaProduto(produto);
                                 if (modificou) {
-                                    response.sendRedirect(request.getContextPath() + "/ClienteServlet?action=portal");
+                                    response.sendRedirect(request.getContextPath() + "/ClienteController?action=portal");
                                 } else {
                                     request.setAttribute("msg",
                                             "Erro ao atualizar quantidade de reclamacoes de produto");
@@ -181,7 +170,7 @@ public class ClienteServlet extends HttpServlet {
                                     rd.forward(request, response);
                                 }
                             } else {
-                                response.sendRedirect(request.getContextPath() + "/ClienteServlet?action=portal");
+                                response.sendRedirect(request.getContextPath() + "/ClienteController?action=portal");
                             }
                         } else {
                             request.setAttribute("msg", "Erro ao adicionar novo atendimento");
@@ -196,10 +185,12 @@ public class ClienteServlet extends HttpServlet {
                     }
                 } else if (action.equals("formVisualizaCliente")) {
                     try {
-                        Cliente cliente = ClienteFacade.retornaCliente(logado.getId());
+                        // Tras as informaçoes para cliente vizualizar o seu cadastro "CAMPOS FICAM CINZA" ou seja, não consegue editar nessa tela
+                        
+                        ClienteBean cliente = ClienteFacade.retornaCliente(logado.getId());
                         request.setAttribute("cliente", cliente);
-                        Cidade cidade = cliente.getEndereco().getCidade();
-                        Estado estado = cidade.getEstado();
+                        CidadeBean cidade = cliente.getEndereco().getCidade();
+                        EstadoBean estado = cidade.getEstado();
                         request.setAttribute("cidade", cidade);
                         request.setAttribute("estado", estado);
 
@@ -212,14 +203,16 @@ public class ClienteServlet extends HttpServlet {
                     }
                 } else if (action.equals("formModificaCliente")) {
                     try {
-                        Cliente cliente = ClienteFacade.retornaCliente(logado.getId());
-                        Cidade cidade = cliente.getEndereco().getCidade();
-                        Estado estado = cidade.getEstado();
+                        
+                        //Apresenta formulario do cadastro do cliente, pode modificar informações
+                        ClienteBean cliente = ClienteFacade.retornaCliente(logado.getId());
+                        CidadeBean cidade = cliente.getEndereco().getCidade();
+                        EstadoBean estado = cidade.getEstado();
                         request.setAttribute("cidadeCliente", cidade);
                         request.setAttribute("estadoCliente", estado);
                         request.setAttribute("cliente", cliente);
-                        List<Estado> listaEstados = EstadoFacade.getLista();
-                        List<Cidade> listaCidades = CidadeFacade.getLista(estado);
+                        List<EstadoBean> listaEstados = EstadoFacade.getLista();
+                        List<CidadeBean> listaCidades = CidadeFacade.getLista(estado);
                         request.setAttribute("listaEstados", listaEstados);
                         request.setAttribute("listaCidades", listaCidades);
 
@@ -232,10 +225,12 @@ public class ClienteServlet extends HttpServlet {
                     }
                 } else if (action.equals("modificaCliente")) {
                     try {
-                        Endereco endereco = new Endereco();
-
-                        Estado estado = EstadoFacade.retornaEstado(Integer.parseInt(request.getParameter("estado")));
-                        Cidade cidade = CidadeFacade.retornaCidade(Integer.parseInt(request.getParameter("cidade")));
+                        
+                        /* Modifica o cliente com base nos dados preenchidos no formulário*/
+                        
+                        EnderecoBean endereco = new EnderecoBean();
+                        EstadoBean estado = EstadoFacade.retornaEstado(Integer.parseInt(request.getParameter("estado")));
+                        CidadeBean cidade = CidadeFacade.retornaCidade(Integer.parseInt(request.getParameter("cidade")));
                         cidade.setEstado(estado);
                         endereco.setCidade(cidade);
                         endereco.setRua(request.getParameter("rua"));
@@ -245,7 +240,7 @@ public class ClienteServlet extends HttpServlet {
                                 Integer.parseInt(request.getParameter("cep").replace(".", "").replace("-", "")));
                         endereco.setComplemento(request.getParameter("complemento"));
 
-                        Cliente cliente = ClienteFacade.retornaCliente(logado.getId());
+                        ClienteBean cliente = ClienteFacade.retornaCliente(logado.getId());
                         endereco.setId(cliente.getEndereco().getId());
                         cliente.setEndereco(endereco);
                         cliente.setPrimeiroNome(request.getParameter("primeiroNome"));
@@ -262,7 +257,7 @@ public class ClienteServlet extends HttpServlet {
                         if (confirmaModificacao) {
                             LoginBean loginBean = new LoginBean(cliente.getIdCliente(), cliente.getPrimeiroNome());
                             session.setAttribute("logado", loginBean);
-                            response.sendRedirect(request.getContextPath() + "/ClienteServlet?action=portal");
+                            response.sendRedirect(request.getContextPath() + "/ClienteController?action=portal");
                         } else {
                             request.setAttribute("msg", "Erro ao modificar cliente de id: " + logado.getId());
                             RequestDispatcher rd = sc.getRequestDispatcher("/erro.jsp");

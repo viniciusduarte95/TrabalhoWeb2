@@ -8,18 +8,18 @@ package com.ufpr.tads.web2.beans;
 import java.io.Serializable;
 
 
-public class Produto implements Serializable{
+public class ProdutoBean implements Serializable{
     private int idProduto;
     private String nome;
     private String descricao;
-    private CategoriaProduto categoria;
+    private CategoriaProdutoBean categoria;
     private float preco;
     private float peso;
     private int quantidadeReclamacoes;
     
-    public Produto() {}
+    public ProdutoBean() {}
     
-    public Produto(String nome, String descricao, CategoriaProduto categoria, float preco ,float peso, int quantidadeReclamacoes){
+    public ProdutoBean(String nome, String descricao, CategoriaProdutoBean categoria, float preco ,float peso, int quantidadeReclamacoes){
         this.nome                  = nome;
         this.descricao             = descricao;
         this.categoria             = categoria;
@@ -48,10 +48,10 @@ public class Produto implements Serializable{
         this.descricao = descricao;
     }
     
-    public CategoriaProduto getCategoria(){
+    public CategoriaProdutoBean getCategoria(){
         return this.categoria;
     }
-    public void setCategoria(CategoriaProduto categoria){
+    public void setCategoria(CategoriaProdutoBean categoria){
         this.categoria = categoria;
     }
     public float getPreco(){

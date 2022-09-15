@@ -1,6 +1,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.ufpr.tads.web2.beans.Cliente"%>
+<%@page import="com.ufpr.tads.web2.beans.ClienteBean"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page errorPage = "/erro.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -27,7 +27,7 @@
 
             function getCidadesInicial() {
                 var idEstado = $("#estado").val();
-                var url = "${pageContext.request.contextPath}/AJAXServlet";
+                var url = "${pageContext.request.contextPath}/AJAXController";
                 $.ajax({
                     url: url,
                     data: {
@@ -89,11 +89,11 @@
                  title=" "
                 />
             </div>
-            <a href="${pageContext.request.contextPath}/GerenteServlet?action=todosCadastrados"class="float-right btn btn-danger rounded">Voltar</a>
+            <a href="${pageContext.request.contextPath}/GerenteController?action=todosCadastrados"class="float-right btn btn-danger rounded">Voltar</a>
           </nav>    
           <div class="container"><br>
             <h2>Cadastro ${titulo} </h2>
-            <form class="needs-validation shadow-lg p-3 mb-5 bg-body rounded mt-4" action="${pageContext.request.contextPath}/GerenteServlet?action=${empty cadastrado ? "novoCadastro" : stringAlterar}" method="post">
+            <form class="needs-validation shadow-lg p-3 mb-5 bg-body rounded mt-4" action="${pageContext.request.contextPath}/GerenteController?action=${empty cadastrado ? "novoCadastro" : stringAlterar}" method="post">
                 <c:if test="${!empty cadastrado}">
                     <div class="form-group">
                         <label for="idCadastrado">Id: </label>
@@ -204,7 +204,7 @@
 
         function getCidades() {
             var idEstado = $("#estado").val();
-            var url = "${pageContext.request.contextPath}/AJAXServlet";
+            var url = "${pageContext.request.contextPath}/AJAXController";
             $.ajax({
                 url: url,
                 data: {

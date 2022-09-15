@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.ufpr.tads.web2.beans.Atendimento"%>
+<%@page import="com.ufpr.tads.web2.beans.AtendimentoBean"%>
 <%@page errorPage = "/erro.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -39,19 +39,19 @@
             </div>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/FuncionarioServlet?action=todosAtendimentos">Todos os Atendimentos</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/FuncionarioController?action=todosAtendimentos">Todos os Atendimentos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/CategoriaProdutoServlet?action=listarCategorias">Categorias de Produto</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/CategoriaProdutoController?action=listarCategorias">Categorias de Produto</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/ProdutoServlet?action=listarProdutos ">Produtos</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/ProdutoController?action=listarProdutos">Produtos</a>
                 </li>
             </ul>
         </nav>
           <div class="container"><br>
             <h1>Olá! ${logado.getNome()}!</h1>
-            <a href="${pageContext.request.contextPath}/LogoutServlet" class="float-right btn btn-danger rounded">Sair</a>
+            <a href="${pageContext.request.contextPath}/LogoutController" class="float-right btn btn-danger rounded">Sair</a>
             </br>
             <h2>Atendimentos Abertos</h2>
             </br>
@@ -88,7 +88,7 @@
                         <td style="background-color: ${color}"><c:out value="${atendimento.situacao.estado}"/></td>
                         <td><fmt:formatDate value="${atendimento.dataHoraInicio.getTime()}" pattern="dd/MM/yyyy HH:mm"/></td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/FuncionarioServlet?action=formResolverAtendimento&idAtendimento=${atendimento.idAtendimento}"><button class="btn btn-success btn btn-block">Resolver</button></a>
+                            <a href="${pageContext.request.contextPath}/FuncionarioController?action=formResolverAtendimento&idAtendimento=${atendimento.idAtendimento}"><button class="btn btn-success btn btn-block">Resolver</button></a>
                         </td>
                     </tr>
                 </c:forEach>

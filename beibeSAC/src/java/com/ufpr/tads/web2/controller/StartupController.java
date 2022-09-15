@@ -3,34 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ufpr.tads.web2.servlets;
+package com.ufpr.tads.web2.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import jakarta.servlet.ServletConfig;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 
 import com.ufpr.tads.web2.beans.ConfigBean;
+import jakarta.servlet.ServletConfig;
 
-@WebServlet(name = "StartupServlet", urlPatterns = { "/StartupServlet" }, loadOnStartup = 1)
-public class StartupServlet extends HttpServlet {
+@WebServlet(name = "StartupController", urlPatterns = { "/StartupController" }, loadOnStartup = 1)
+public class StartupController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param config
-     * @param request  servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
-     */
+    // Utilizado para setar o e-mail que fica no rodape das paginas
 
     @Override
     public void init(ServletConfig config) throws ServletException {

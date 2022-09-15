@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.ufpr.tads.web2.servlets;
-
+package com.ufpr.tads.web2.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -19,11 +12,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import com.ufpr.tads.web2.beans.Atendimento;
-import com.ufpr.tads.web2.beans.Funcionario;
+import com.ufpr.tads.web2.beans.AtendimentoBean;
+import com.ufpr.tads.web2.beans.FuncionarioBean;
 import com.ufpr.tads.web2.beans.LoginBean;
-import com.ufpr.tads.web2.beans.Situacao;
+import com.ufpr.tads.web2.beans.SituacaoBean;
 import com.ufpr.tads.web2.facade.AtendimentoException;
 import com.ufpr.tads.web2.facade.AtendimentoFacade;
 import com.ufpr.tads.web2.facade.FuncionarioException;
@@ -31,18 +23,9 @@ import com.ufpr.tads.web2.facade.FuncionarioFacade;
 import com.ufpr.tads.web2.facade.SituacaoException;
 import com.ufpr.tads.web2.facade.SituacaoFacade;
 
-@WebServlet(name = "FuncionarioServlet", urlPatterns = { "/FuncionarioServlet" })
-public class FuncionarioServlet extends HttpServlet {
+@WebServlet(name = "FuncionarioController", urlPatterns = { "/FuncionarioController" })
+public class FuncionarioController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request  servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -57,11 +40,13 @@ public class FuncionarioServlet extends HttpServlet {
             if (logado.getNome() != null) {
                 if (action == null || action.equals("portal")) {
                     try {
-                        Funcionario funcionario = FuncionarioFacade.retornaFuncionario(logado.getId());
-                        Situacao emAberto = SituacaoFacade.retornaSituacao(1);
-                        List<Atendimento> listaAtendimentosAbertos = AtendimentoFacade.getListaPorSituacao(emAberto);
+                        
+                        // Apresenta a pagina inicial do funcionario (só mostra chamados sem solução)
+                        FuncionarioBean funcionario = FuncionarioFacade.retornaFuncionario(logado.getId());
+                        SituacaoBean emAberto = SituacaoFacade.retornaSituacao(1);
+                        List<AtendimentoBean> listaAtendimentosAbertos = AtendimentoFacade.getListaPorSituacao(emAberto);
                         if (listaAtendimentosAbertos.size() > 0) {
-                            Collections.sort(listaAtendimentosAbertos, (Atendimento a1, Atendimento a2) -> a1
+                            Collections.sort(listaAtendimentosAbertos, (AtendimentoBean a1, AtendimentoBean a2) -> a1
                                     .getDataHoraInicio().compareTo(a2.getDataHoraInicio()));
                             request.setAttribute("listaAtendimentosAbertos", listaAtendimentosAbertos);
                         }
@@ -76,10 +61,12 @@ public class FuncionarioServlet extends HttpServlet {
                     }
                 } else if (action.equals("todosAtendimentos")) {
                     try {
-                        Funcionario funcionario = FuncionarioFacade.retornaFuncionario(logado.getId());
-                        List<Atendimento> listaAtendimentos = AtendimentoFacade.getLista();
+                        
+                        // Apresenta tela com todos os atendimentos realizados pelo usuário (fechado ou aberto)
+                        FuncionarioBean funcionario = FuncionarioFacade.retornaFuncionario(logado.getId());
+                        List<AtendimentoBean> listaAtendimentos = AtendimentoFacade.getLista();
                         if (listaAtendimentos.size() > 0) {
-                            Collections.sort(listaAtendimentos, (Atendimento a1, Atendimento a2) -> a1
+                            Collections.sort(listaAtendimentos, (AtendimentoBean a1, AtendimentoBean a2) -> a1
                                     .getDataHoraInicio().compareTo(a2.getDataHoraInicio()));
                             request.setAttribute("listaAtendimentos", listaAtendimentos);
                         }
@@ -94,9 +81,10 @@ public class FuncionarioServlet extends HttpServlet {
                     }
                 } else if (action.equals("formResolverAtendimento")) {
                     try {
+                        // Apresenta do formulário para resolver o ticket
                         String sId = request.getParameter("idAtendimento");
                         int idAtendimento = Integer.parseInt(sId);
-                        Atendimento atendimento = AtendimentoFacade.retornaAtendimento(idAtendimento);
+                        AtendimentoBean atendimento = AtendimentoFacade.retornaAtendimento(idAtendimento);
 
                         RequestDispatcher rd = sc.getRequestDispatcher("/funcionario/resolucaoAtendimento.jsp");
                         request.setAttribute("atendimento", atendimento);
@@ -108,9 +96,10 @@ public class FuncionarioServlet extends HttpServlet {
                     }
                 } else if (action.equals("resolverAtendimento")) {
                     try {
-                        Atendimento atendimento = AtendimentoFacade
+                        // muda o status do ticket para resolvido (altera atendimento)
+                        AtendimentoBean atendimento = AtendimentoFacade
                                 .retornaAtendimento(Integer.parseInt(request.getParameter("idAtendimento")));
-                        Funcionario funcionario = FuncionarioFacade.retornaFuncionario(logado.getId());
+                        FuncionarioBean funcionario = FuncionarioFacade.retornaFuncionario(logado.getId());
 
                         atendimento.setFuncionario(funcionario);
                         atendimento.setSolucao(request.getParameter("solucao"));
@@ -118,7 +107,7 @@ public class FuncionarioServlet extends HttpServlet {
 
                         boolean modificou = AtendimentoFacade.modificaAtendimento(atendimento);
                         if (modificou) {
-                            response.sendRedirect(request.getContextPath() + "/FuncionarioServlet?action=portal");
+                            response.sendRedirect(request.getContextPath() + "/FuncionarioController?action=portal");
                         } else {
                             request.setAttribute("msg",
                                     "Erro ao modificar atendimento de id: " + atendimento.getIdAtendimento());

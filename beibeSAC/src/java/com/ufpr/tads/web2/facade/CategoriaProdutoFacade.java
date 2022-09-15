@@ -5,7 +5,7 @@
  */
 package com.ufpr.tads.web2.facade;
 
-import com.ufpr.tads.web2.beans.CategoriaProduto;
+import com.ufpr.tads.web2.beans.CategoriaProdutoBean;
 import com.ufpr.tads.web2.dao.CategoriaProdutoDao;
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -13,12 +13,12 @@ import java.util.ArrayList;
 
 
 public class CategoriaProdutoFacade {
-    public static ArrayList<CategoriaProduto> getLista() throws CategoriaProdutoException
+    public static ArrayList<CategoriaProdutoBean> getLista() throws CategoriaProdutoException
     {
         try
         {
             CategoriaProdutoDao categoriaProdutoDao = new CategoriaProdutoDao();
-            ArrayList<CategoriaProduto> listaCategorias = categoriaProdutoDao.retornaListaCategorias();
+            ArrayList<CategoriaProdutoBean> listaCategorias = categoriaProdutoDao.retornaListaCategorias();
             return listaCategorias;
         }
         catch(SQLException | ClassNotFoundException e)
@@ -27,12 +27,12 @@ public class CategoriaProdutoFacade {
         }
     }
     
-    public static CategoriaProduto adicionaCategoria(CategoriaProduto categoriaProduto) throws CategoriaProdutoException
+    public static CategoriaProdutoBean adicionaCategoria(CategoriaProdutoBean categoriaProduto) throws CategoriaProdutoException
     {
         try
         {
             CategoriaProdutoDao categoriaProdutoDao = new CategoriaProdutoDao();
-            CategoriaProduto categoriaProdutoNovo = categoriaProdutoDao.adicionaCategoria(categoriaProduto);
+            CategoriaProdutoBean categoriaProdutoNovo = categoriaProdutoDao.adicionaCategoria(categoriaProduto);
             return categoriaProdutoNovo;
         }
         catch(SQLException | ClassNotFoundException e)
@@ -41,12 +41,12 @@ public class CategoriaProdutoFacade {
         }
     }
     
-    public static CategoriaProduto retornaCategoria(int id) throws CategoriaProdutoException
+    public static CategoriaProdutoBean retornaCategoria(int id) throws CategoriaProdutoException
     {
         try
         {
             CategoriaProdutoDao categoriaProdutoDao = new CategoriaProdutoDao();
-            CategoriaProduto categoriaProduto = categoriaProdutoDao.retornaCategoriaPorId(id);
+            CategoriaProdutoBean categoriaProduto = categoriaProdutoDao.retornaCategoriaPorId(id);
             return categoriaProduto;
         }
         catch(SQLException | ClassNotFoundException e)
@@ -55,7 +55,7 @@ public class CategoriaProdutoFacade {
         }
     }
     
-    public static boolean modificaCategoria(CategoriaProduto categoriaProduto) throws CategoriaProdutoException
+    public static boolean modificaCategoria(CategoriaProdutoBean categoriaProduto) throws CategoriaProdutoException
     {
         try
         {
@@ -70,7 +70,7 @@ public class CategoriaProdutoFacade {
         }
     }
     
-    public static boolean removerCategoria(CategoriaProduto categoriaProduto) throws CategoriaProdutoException
+    public static boolean removerCategoria(CategoriaProdutoBean categoriaProduto) throws CategoriaProdutoException
     {
         try
         {

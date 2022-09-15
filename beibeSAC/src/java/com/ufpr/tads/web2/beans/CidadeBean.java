@@ -8,14 +8,14 @@ package com.ufpr.tads.web2.beans;
 import java.io.Serializable;
 
 
-public class Cidade implements Serializable {
+public class CidadeBean implements Serializable {
     private int idCidade;
     private String nome;
-    private Estado estado;
+    private EstadoBean estado;
     
-    public Cidade() {}
+    public CidadeBean() {}
     
-    public Cidade(String nome, Estado estado){
+    public CidadeBean(String nome, EstadoBean estado){
         this.nome   = nome;
         this.estado = estado;
     }
@@ -34,10 +34,10 @@ public class Cidade implements Serializable {
         this.nome = nome;
     }
     
-    public Estado getEstado(){
+    public EstadoBean getEstado(){
         return this.estado;
     }
-    public void setEstado(Estado estado){
+    public void setEstado(EstadoBean estado){
         this.estado = estado;
     }
 }

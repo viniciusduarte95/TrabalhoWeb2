@@ -5,8 +5,8 @@
  */
 package com.ufpr.tads.web2.dao;
 
-import com.ufpr.tads.web2.beans.Endereco;
-import com.ufpr.tads.web2.beans.Pessoa;
+import com.ufpr.tads.web2.beans.EnderecoBean;
+import com.ufpr.tads.web2.beans.PessoaBean;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +28,7 @@ public class PessoaDao {
         this.connectionFactory = conFactory;
     }
     
-    public Pessoa adicionaPessoa(Pessoa pessoa) throws SQLException, ClassNotFoundException
+    public PessoaBean adicionaPessoa(PessoaBean pessoa) throws SQLException, ClassNotFoundException
     {
         // ver como dar rollback ou trigger
         Connection con = null;
@@ -37,7 +37,7 @@ public class PessoaDao {
             con = ConnectionFactory.getConnection();
             
             EnderecoDao enderecoDao = new EnderecoDao();
-            Endereco enderecoNovo = enderecoDao.adicionaEndereco(pessoa.getEndereco());
+            EnderecoBean enderecoNovo = enderecoDao.adicionaEndereco(pessoa.getEndereco());
             
             pstm = con.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             pstm.setInt(1, enderecoNovo.getId());
@@ -62,11 +62,11 @@ public class PessoaDao {
         }
     }
     
-    public Pessoa retornaPessoaPorId(int id) throws SQLException, ClassNotFoundException
+    public PessoaBean retornaPessoaPorId(int id) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
-        Pessoa pessoa = new Pessoa();
+        PessoaBean pessoa = new PessoaBean();
         try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectById);
@@ -90,7 +90,7 @@ public class PessoaDao {
         }
     }
     
-    public boolean modificaPessoa(Pessoa pessoa) throws SQLException, ClassNotFoundException
+    public boolean modificaPessoa(PessoaBean pessoa) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -113,7 +113,7 @@ public class PessoaDao {
         }
     }
     
-    public boolean removePessoa(Pessoa pessoa) throws SQLException, ClassNotFoundException
+    public boolean removePessoa(PessoaBean pessoa) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;

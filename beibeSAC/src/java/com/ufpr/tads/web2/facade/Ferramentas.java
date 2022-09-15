@@ -5,9 +5,9 @@
  */
 package com.ufpr.tads.web2.facade;
 
-import com.ufpr.tads.web2.beans.Atendimento;
-import com.ufpr.tads.web2.beans.Situacao;
-import com.ufpr.tads.web2.beans.TipoAtendimento;
+import com.ufpr.tads.web2.beans.AtendimentoBean;
+import com.ufpr.tads.web2.beans.SituacaoBean;
+import com.ufpr.tads.web2.beans.TipoAtendimentoBean;
 import com.ufpr.tads.web2.dao.AtendimentoDao;
 import com.ufpr.tads.web2.dao.FerramentasDao;
 import java.io.UnsupportedEncodingException;
@@ -53,10 +53,10 @@ public class Ferramentas {
         try
         {
             AtendimentoDao atendimentoDao = new AtendimentoDao();
-            ArrayList<Atendimento> listaAtendimentos = atendimentoDao.retornaTodosAtendimentos();
+            ArrayList<AtendimentoBean> listaAtendimentos = atendimentoDao.retornaTodosAtendimentos();
             int qtdAtendimentos = 0;
             
-            for(Atendimento a : listaAtendimentos)
+            for(AtendimentoBean a : listaAtendimentos)
             {
                 qtdAtendimentos++;
             }
@@ -74,11 +74,11 @@ public class Ferramentas {
         try
         {
             AtendimentoDao atendimentoDao = new AtendimentoDao();
-            Situacao emAberto = SituacaoFacade.retornaSituacao(1);
-            ArrayList<Atendimento> listaAtendimentosAbertos = atendimentoDao.retornaAtendimentosPorSituacao(emAberto);
+            SituacaoBean emAberto = SituacaoFacade.retornaSituacao(1);
+            ArrayList<AtendimentoBean> listaAtendimentosAbertos = atendimentoDao.retornaAtendimentosPorSituacao(emAberto);
             int qtdAtendimentosAbertos = 0;
             
-            for(Atendimento a : listaAtendimentosAbertos)
+            for(AtendimentoBean a : listaAtendimentosAbertos)
             {
                 qtdAtendimentosAbertos++;
             }
@@ -104,15 +104,15 @@ public class Ferramentas {
         }
     }
     
-    public static int qtdAtendimentosTipo(TipoAtendimento tipo) throws FerramentasException
+    public static int qtdAtendimentosTipo(TipoAtendimentoBean tipo) throws FerramentasException
     {
        try
        {
            AtendimentoDao atendimentoDao = new AtendimentoDao();
-           ArrayList<Atendimento> listaAtendimentosTipo = atendimentoDao.retornaAtendimentosPorTipo(tipo);
+           ArrayList<AtendimentoBean> listaAtendimentosTipo = atendimentoDao.retornaAtendimentosPorTipo(tipo);
            int qtdAtendimentosTipo = 0;
            
-           for(Atendimento a : listaAtendimentosTipo)
+           for(AtendimentoBean a : listaAtendimentosTipo)
            {
                qtdAtendimentosTipo++;
            }
@@ -125,17 +125,17 @@ public class Ferramentas {
        }
     }
     
-    public static int qtdAtendimentosAbertosTipo(TipoAtendimento tipo) throws FerramentasException
+    public static int qtdAtendimentosAbertosTipo(TipoAtendimentoBean tipo) throws FerramentasException
     {
         try
         {
             AtendimentoDao atendimentoDao = new AtendimentoDao();
-            ArrayList<Atendimento> listaAtendimentosAbertosTipo = atendimentoDao.retornaAtendimentosPorTipo(tipo);
+            ArrayList<AtendimentoBean> listaAtendimentosAbertosTipo = atendimentoDao.retornaAtendimentosPorTipo(tipo);
             int qtdAtendimentosAbertosTipo = 0;
             
-            for(Atendimento a : listaAtendimentosAbertosTipo)
+            for(AtendimentoBean a : listaAtendimentosAbertosTipo)
             {
-                Situacao situacao = a.getSituacao();
+                SituacaoBean situacao = a.getSituacao();
                 if (situacao.getIdSituacao() == 1)
                     qtdAtendimentosAbertosTipo++;
             }

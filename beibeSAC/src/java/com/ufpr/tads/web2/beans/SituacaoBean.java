@@ -8,13 +8,13 @@ package com.ufpr.tads.web2.beans;
 import java.io.Serializable;
 
 
-public class Situacao implements Serializable {
+public class SituacaoBean implements Serializable {
     private int idSituacao;
     private String estado;
     
-    public Situacao() {}
+    public SituacaoBean() {}
     
-    public Situacao(String estado){
+    public SituacaoBean(String estado){
         this.estado = estado;
     }
     

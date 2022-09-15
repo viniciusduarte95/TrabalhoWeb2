@@ -5,8 +5,8 @@
  */
 package com.ufpr.tads.web2.dao;
 
-import com.ufpr.tads.web2.beans.Cliente;
-import com.ufpr.tads.web2.beans.Pessoa;
+import com.ufpr.tads.web2.beans.ClienteBean;
+import com.ufpr.tads.web2.beans.PessoaBean;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,11 +31,11 @@ public class ClienteDao {
         this.connectionFactory = conFactory;
     }
 
-    public Cliente logaCliente(String login, String senha) throws SQLException, ClassNotFoundException
+    public ClienteBean logaCliente(String login, String senha) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
-        Cliente cliente = new Cliente();
+        ClienteBean cliente = new ClienteBean();
         try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(findLogin);
@@ -45,7 +45,7 @@ public class ClienteDao {
             
             while (rs.next()) {
                 PessoaDao pessoaDao = new PessoaDao();
-                Pessoa pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
+                PessoaBean pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
                 cliente.setIdCliente(rs.getInt("idCliente"));
                 cliente.setEmail(rs.getString("email"));
                 cliente.setSenha(rs.getString("senha"));
@@ -63,25 +63,25 @@ public class ClienteDao {
         }
     }
     
-    public ArrayList<Cliente> retornaListaClientes() throws SQLException, ClassNotFoundException 
+    public ArrayList<ClienteBean> retornaListaClientes() throws SQLException, ClassNotFoundException 
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        ArrayList<Cliente> clientes = new ArrayList<>();
+        ArrayList<ClienteBean> clientes = new ArrayList<>();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(select);
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
-                Cliente cliente = new Cliente();
+                ClienteBean cliente = new ClienteBean();
                 cliente.setIdCliente(rs.getInt("idCliente"));
                 cliente.setEmail(rs.getString("email"));
                 cliente.setSenha(rs.getString("senha"));
                 
                 PessoaDao pessoaDao = new PessoaDao();
-                Pessoa pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
+                PessoaBean pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
                 cliente.setIdPessoa(pessoa.getIdPessoa());
                 cliente.setPrimeiroNome(pessoa.getPrimeiroNome());
                 cliente.setSobreNome(pessoa.getSobreNome());
@@ -97,7 +97,7 @@ public class ClienteDao {
         }      
     }
     
-    public Cliente adicionaCliente(Cliente cliente) throws SQLException, ClassNotFoundException 
+    public ClienteBean adicionaCliente(ClienteBean cliente) throws SQLException, ClassNotFoundException 
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -105,8 +105,8 @@ public class ClienteDao {
             con = ConnectionFactory.getConnection();
             
             PessoaDao pessoaDao = new PessoaDao();
-            Pessoa pessoaCliente = cliente;
-            Pessoa pessoaNovo = pessoaDao.adicionaPessoa(pessoaCliente);
+            PessoaBean pessoaCliente = cliente;
+            PessoaBean pessoaNovo = pessoaDao.adicionaPessoa(pessoaCliente);
             
             pstm = con.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             pstm.setInt(1, pessoaNovo.getIdPessoa());
@@ -129,11 +129,11 @@ public class ClienteDao {
         }
     }
 
-    public Cliente retornaClientePorId(int id) throws SQLException, ClassNotFoundException
+    public ClienteBean retornaClientePorId(int id) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
-        Cliente cliente = new Cliente();
+        ClienteBean cliente = new ClienteBean();
         try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectById);
@@ -146,7 +146,7 @@ public class ClienteDao {
                 cliente.setSenha(rs.getString("senha"));
                 
                 PessoaDao pessoaDao = new PessoaDao();
-                Pessoa pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
+                PessoaBean pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
                 cliente.setIdPessoa(pessoa.getIdPessoa());
                 cliente.setPrimeiroNome(pessoa.getPrimeiroNome());
                 cliente.setSobreNome(pessoa.getSobreNome());
@@ -161,7 +161,7 @@ public class ClienteDao {
         }
     }
     
-    public boolean modificaCliente(Cliente cliente) throws SQLException, ClassNotFoundException
+    public boolean modificaCliente(ClienteBean cliente) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -169,7 +169,7 @@ public class ClienteDao {
             con = ConnectionFactory.getConnection();
             
             PessoaDao pessoaDao = new PessoaDao();
-            Pessoa pessoaCliente = cliente;
+            PessoaBean pessoaCliente = cliente;
             pessoaDao.modificaPessoa(pessoaCliente);
             
             pstm = con.prepareStatement(update);
@@ -183,7 +183,7 @@ public class ClienteDao {
         }
     }
     
-    public boolean removeCliente(Cliente cliente) throws SQLException, ClassNotFoundException
+    public boolean removeCliente(ClienteBean cliente) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -194,7 +194,7 @@ public class ClienteDao {
             int i = pstm.executeUpdate();
             
             PessoaDao pessoaDao = new PessoaDao();
-            Pessoa pessoaCliente = cliente;
+            PessoaBean pessoaCliente = cliente;
             pessoaDao.removePessoa(pessoaCliente);
 
             return i > 0;

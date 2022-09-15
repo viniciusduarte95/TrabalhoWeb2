@@ -17,7 +17,7 @@
                          <div class="fadeIn first">
                              <img src="./img/user.png" id="icon" alt="User Icon" />
                          </div>
-                        <form action="${pageContext.request.contextPath}/LoginServlet?action=logar" method="POST">
+                        <form action="${pageContext.request.contextPath}/LoginController?action=logar" method="POST">
                             <div class="flex-row">
                                 <input id="login" name="login" class="lf--input" placeholder="Usuário" type="text">
                             </div>
@@ -32,7 +32,7 @@
                             </c:if>
                             <div id="formFooter">
                                  Não possui conta?
-                                <a class="underlineHover" href="${pageContext.request.contextPath}/LoginServlet?action=autoCadastro" >Registre-se!</a>
+                                <a class="underlineHover" href="${pageContext.request.contextPath}/LoginController?action=autoCadastro" >Registre-se!</a>
                             </div>
                         </form>
                         <div class="footer">

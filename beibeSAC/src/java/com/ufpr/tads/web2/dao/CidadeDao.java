@@ -5,8 +5,8 @@
  */
 package com.ufpr.tads.web2.dao;
 
-import com.ufpr.tads.web2.beans.Cidade;
-import com.ufpr.tads.web2.beans.Estado;
+import com.ufpr.tads.web2.beans.CidadeBean;
+import com.ufpr.tads.web2.beans.EstadoBean;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,19 +27,19 @@ public class CidadeDao {
         this.connectionFactory = conFactory;
     }
     
-    public ArrayList<Cidade> retornaListaCidades() throws SQLException, ClassNotFoundException
+    public ArrayList<CidadeBean> retornaListaCidades() throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        ArrayList<Cidade> cidades = new ArrayList<>();
+        ArrayList<CidadeBean> cidades = new ArrayList<>();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(select);
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
-                Cidade cidade = new Cidade();
+                CidadeBean cidade = new CidadeBean();
                 cidade.setId(rs.getInt("idCidade"));
                 cidade.setNome(rs.getString("nome"));
                 
@@ -54,12 +54,12 @@ public class CidadeDao {
         }
     }
     
-    public ArrayList<Cidade> retornaListaCidadesPorEstado(Estado estado) throws SQLException, ClassNotFoundException
+    public ArrayList<CidadeBean> retornaListaCidadesPorEstado(EstadoBean estado) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        ArrayList<Cidade> cidades = new ArrayList<>();
+        ArrayList<CidadeBean> cidades = new ArrayList<>();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectByEstado);
@@ -67,7 +67,7 @@ public class CidadeDao {
             ResultSet rs = pstm.executeQuery();
 
             while (rs.next()) {
-                Cidade cidade = new Cidade();
+                CidadeBean cidade = new CidadeBean();
                 cidade.setId(rs.getInt("idCidade"));
                 cidade.setNome(rs.getString("nome"));
                 cidade.setEstado(estado);
@@ -80,12 +80,12 @@ public class CidadeDao {
         }
     }
     
-    public Cidade retornaCidadePorId(int id) throws SQLException, ClassNotFoundException
+    public CidadeBean retornaCidadePorId(int id) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        Cidade cidade = new Cidade();
+        CidadeBean cidade = new CidadeBean();
         try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectById);

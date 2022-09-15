@@ -2,7 +2,7 @@
 -- 
 -- CREATE DATABASE BEIBE_SAC;
 -- 
--- \c web2;
+
 
 CREATE TABLE TipoAtendimento (
 	idTipo SERIAL PRIMARY KEY, 

@@ -8,20 +8,20 @@ package com.ufpr.tads.web2.beans;
 import java.io.Serializable;
 
 
-public class CategoriaProduto implements Serializable {
-    private int idCategoria;
+public class TipoAtendimentoBean implements Serializable {
+    private int idTipo;
     private String nome;
     
-    public CategoriaProduto() {}
+    public TipoAtendimentoBean() {}
     
-    public CategoriaProduto(String nome){
+    public TipoAtendimentoBean(String nome){
         this.nome = nome;
     }
-    public int getIdCategoria(){
-        return this.idCategoria;
+    public int getIdTipo(){
+        return this.idTipo;
     }
-    public void setIdCategoria(int idCategoria){
-        this.idCategoria = idCategoria;
+    public void setIdTipo(int idTipo){
+        this.idTipo = idTipo;
     }
     public String getNome(){
         return this.nome;
