@@ -2,7 +2,7 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.ufpr.tads.web2.beans.AtendimentoBean"%>
+<%@page import="com.ufpr.tads.web2.beans.Atendimento"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page errorPage = "/erro.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -39,12 +39,12 @@
                  title=" "
                 />
             </div> 
-            <a href="${pageContext.request.contextPath}/FuncionarioController?action=portal"class="float-right btn btn-danger rounded">Voltar</a>
+            <a href="${pageContext.request.contextPath}/FuncionarioServlet?action=portal"class="float-right btn btn-danger rounded">Voltar</a>
           </nav>  
           <div class="container"><br>
             <h2>Resolver Atendimento # ${atendimento.getIdAtendimento()}</h2>
             <c:if test="${!empty atendimento}">
-                <form class="needs-validation shadow-lg p-3 mb-5 bg-body rounded mt-4" action="${pageContext.request.contextPath}/FuncionarioController?action=resolverAtendimento&idAtendimento=${atendimento.idAtendimento}" method="post">
+                <form class="needs-validation shadow-lg p-3 mb-5 bg-body rounded mt-4" action="${pageContext.request.contextPath}/FuncionarioServlet?action=resolverAtendimento&idAtendimento=${atendimento.idAtendimento}" method="post">
                     <div class="form-group">
                         <label for="nomeCliente">Cliente: </label>
                         <input type="text" class="form-control" name="nomeCliente" placeholder="${atendimento.cliente.primeiroNome} ${atendimento.cliente.sobreNome}" value="${atendimento.cliente.primeiroNome} ${atendimento.cliente.sobreNome}" readonly>

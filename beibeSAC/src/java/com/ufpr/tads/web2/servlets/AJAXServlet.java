@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ufpr.tads.web2.controller;
+package com.ufpr.tads.web2.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
@@ -17,30 +17,50 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+import com.ufpr.tads.web2.beans.Cidade;
+import com.ufpr.tads.web2.beans.Estado;
+import com.ufpr.tads.web2.facade.CidadeException;
+import com.ufpr.tads.web2.facade.CidadeFacade;
+import com.ufpr.tads.web2.facade.EstadoException;
+import com.ufpr.tads.web2.facade.EstadoFacade;
 
-import com.ufpr.tads.web2.beans.ConfigBean;
-import jakarta.servlet.ServletConfig;
+@WebServlet(name = "AJAXServlet", urlPatterns = { "/AJAXServlet" })
+public class AJAXServlet extends HttpServlet {
 
-@WebServlet(name = "StartupController", urlPatterns = { "/StartupController" }, loadOnStartup = 1)
-public class StartupController extends HttpServlet {
-
-    // Utilizado para setar o e-mail que fica no rodape das paginas
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        ConfigBean confBean = new ConfigBean();
-        confBean.setEmail("admin@email.com.br");
-
-        ServletContext sc = config.getServletContext();
-        sc.setAttribute("configuracao", confBean);
-    }
-
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request  servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        String idEstado = request.getParameter("idEstado");
+        ServletContext sc = request.getServletContext();
+        try {
+            Estado estado = EstadoFacade.retornaEstado(Integer.parseInt(idEstado));
+            List<Cidade> listaCidades = CidadeFacade.getLista(estado);
 
+            String json = new Gson().toJson(listaCidades);
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+        } catch (EstadoException | CidadeException | NumberFormatException e) {
+            request.setAttribute("msg", "ERRO: " + e.getMessage());
+            RequestDispatcher rd = request.getRequestDispatcher("erro.jsp");
+            rd.forward(request, response);
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
@@ -53,11 +73,6 @@ public class StartupController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException      if an I/O error occurs
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
 
     /**
      * Handles the HTTP <code>POST</code> method.

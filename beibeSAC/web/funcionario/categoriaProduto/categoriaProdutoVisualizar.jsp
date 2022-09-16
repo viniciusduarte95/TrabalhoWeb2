@@ -1,6 +1,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.ufpr.tads.web2.beans.CategoriaProdutoBean"%>
+<%@page import="com.ufpr.tads.web2.beans.CategoriaProduto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page errorPage = "/erro.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -35,7 +35,7 @@
                  title=" "
                 />
             </div>
-            <a href="${pageContext.request.contextPath}/CategoriaProdutoController?action=listarCategorias"" class="float-right btn btn-danger rounded">Voltar</a>
+            <a href="${pageContext.request.contextPath}/CategoriaProdutoServlet?action=listarCategorias"" class="float-right btn btn-danger rounded">Voltar</a>
           </nav>  
         <div class="container">
              <div class="col-md-12"> <br>

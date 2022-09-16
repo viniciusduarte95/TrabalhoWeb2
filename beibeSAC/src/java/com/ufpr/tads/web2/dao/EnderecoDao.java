@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.ufpr.tads.web2.beans.EnderecoBean;
+import com.ufpr.tads.web2.beans.Endereco;
 
 public class EnderecoDao {
     private ConnectionFactory connectionFactory;
@@ -27,7 +27,7 @@ public class EnderecoDao {
         this.connectionFactory = conFactory;
     }
 
-    public EnderecoBean adicionaEndereco(EnderecoBean endereco) throws SQLException, ClassNotFoundException {
+    public Endereco adicionaEndereco(Endereco endereco) throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement pstm = null;
         try {
@@ -56,11 +56,11 @@ public class EnderecoDao {
         }
     }
 
-    public EnderecoBean retornaEnderecoPorId(int id) throws SQLException, ClassNotFoundException {
+    public Endereco retornaEnderecoPorId(int id) throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        EnderecoBean endereco = new EnderecoBean();
+        Endereco endereco = new Endereco();
         try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectById);
@@ -85,7 +85,7 @@ public class EnderecoDao {
         }
     }
 
-    public boolean modificaEndereco(EnderecoBean endereco) throws SQLException, ClassNotFoundException {
+    public boolean modificaEndereco(Endereco endereco) throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement pstm = null;
         try {
@@ -107,7 +107,7 @@ public class EnderecoDao {
         }
     }
 
-    public boolean removeEndereco(EnderecoBean endereco) throws SQLException, ClassNotFoundException {
+    public boolean removeEndereco(Endereco endereco) throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement pstm = null;
         try {

@@ -5,11 +5,11 @@
  */
 package com.ufpr.tads.web2.dao;
 
-import com.ufpr.tads.web2.beans.AtendimentoBean;
-import com.ufpr.tads.web2.beans.ClienteBean;
-import com.ufpr.tads.web2.beans.FuncionarioBean;
-import com.ufpr.tads.web2.beans.SituacaoBean;
-import com.ufpr.tads.web2.beans.TipoAtendimentoBean;
+import com.ufpr.tads.web2.beans.Atendimento;
+import com.ufpr.tads.web2.beans.Cliente;
+import com.ufpr.tads.web2.beans.Funcionario;
+import com.ufpr.tads.web2.beans.Situacao;
+import com.ufpr.tads.web2.beans.TipoAtendimento;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,19 +39,19 @@ public class AtendimentoDao {
         this.connectionFactory = conFactory;
     }
     
-    public ArrayList<AtendimentoBean> retornaTodosAtendimentos() throws SQLException, ClassNotFoundException
+    public ArrayList<Atendimento> retornaTodosAtendimentos() throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        ArrayList<AtendimentoBean> atendimentos = new ArrayList<>();
+        ArrayList<Atendimento> atendimentos = new ArrayList<>();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(select);
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
-                AtendimentoBean atendimento = new AtendimentoBean();
+                Atendimento atendimento = new Atendimento();
                 atendimento.setIdAtendimento(rs.getInt("idAtendimento"));
                 atendimento.setDataHoraInicio(timestampToCalendar(rs.getTimestamp("dataHoraInicio")));
                 atendimento.setDataHoraFim(timestampToCalendar(rs.getTimestamp("dataHoraFim")));
@@ -78,12 +78,12 @@ public class AtendimentoDao {
         }  
     }
     
-    public ArrayList<AtendimentoBean> retornaAtendimentosPorCliente(ClienteBean cliente) throws SQLException, ClassNotFoundException
+    public ArrayList<Atendimento> retornaAtendimentosPorCliente(Cliente cliente) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        ArrayList<AtendimentoBean> atendimentos = new ArrayList<>();
+        ArrayList<Atendimento> atendimentos = new ArrayList<>();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectByCliente);
@@ -91,7 +91,7 @@ public class AtendimentoDao {
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
-                AtendimentoBean atendimento = new AtendimentoBean();
+                Atendimento atendimento = new Atendimento();
                 atendimento.setIdAtendimento(rs.getInt("idAtendimento"));
                 atendimento.setDataHoraInicio(timestampToCalendar(rs.getTimestamp("dataHoraInicio")));
                 atendimento.setDataHoraFim(timestampToCalendar(rs.getTimestamp("dataHoraFim")));
@@ -117,12 +117,12 @@ public class AtendimentoDao {
         }  
     }
     
-    public ArrayList<AtendimentoBean> retornaAtendimentosPorFuncionario(FuncionarioBean funcionario) throws SQLException, ClassNotFoundException
+    public ArrayList<Atendimento> retornaAtendimentosPorFuncionario(Funcionario funcionario) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        ArrayList<AtendimentoBean> atendimentos = new ArrayList<>();
+        ArrayList<Atendimento> atendimentos = new ArrayList<>();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectByFuncionario);
@@ -130,7 +130,7 @@ public class AtendimentoDao {
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
-                AtendimentoBean atendimento = new AtendimentoBean();
+                Atendimento atendimento = new Atendimento();
                 atendimento.setIdAtendimento(rs.getInt("idAtendimento"));
                 atendimento.setDataHoraInicio(timestampToCalendar(rs.getTimestamp("dataHoraInicio")));
                 atendimento.setDataHoraFim(timestampToCalendar(rs.getTimestamp("dataHoraFim")));
@@ -155,12 +155,12 @@ public class AtendimentoDao {
             con.close();
         }  
     }
-    public ArrayList<AtendimentoBean> retornaAtendimentosPorTipo(TipoAtendimentoBean tipo) throws SQLException, ClassNotFoundException
+    public ArrayList<Atendimento> retornaAtendimentosPorTipo(TipoAtendimento tipo) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
         
-        ArrayList<AtendimentoBean> atendimentos = new ArrayList<>();
+        ArrayList<Atendimento> atendimentos = new ArrayList<>();
         try
         {
             con = ConnectionFactory.getConnection();
@@ -169,7 +169,7 @@ public class AtendimentoDao {
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
-                AtendimentoBean atendimento = new AtendimentoBean();
+                Atendimento atendimento = new Atendimento();
                 atendimento.setIdAtendimento(rs.getInt("idAtendimento"));
                 atendimento.setDataHoraInicio(timestampToCalendar(rs.getTimestamp("dataHoraInicio")));
                 atendimento.setDataHoraFim(timestampToCalendar(rs.getTimestamp("dataHoraFim")));
@@ -196,12 +196,12 @@ public class AtendimentoDao {
             con.close();
         }
     }
-    public ArrayList<AtendimentoBean> retornaAtendimentosPorSituacao(SituacaoBean situacao) throws SQLException, ClassNotFoundException
+    public ArrayList<Atendimento> retornaAtendimentosPorSituacao(Situacao situacao) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        ArrayList<AtendimentoBean> atendimentos = new ArrayList<>();
+        ArrayList<Atendimento> atendimentos = new ArrayList<>();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectBySituacao);
@@ -209,7 +209,7 @@ public class AtendimentoDao {
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
-                AtendimentoBean atendimento = new AtendimentoBean();
+                Atendimento atendimento = new Atendimento();
                 atendimento.setIdAtendimento(rs.getInt("idAtendimento"));
                 atendimento.setDataHoraInicio(timestampToCalendar(rs.getTimestamp("dataHoraInicio")));
                 atendimento.setDataHoraFim(timestampToCalendar(rs.getTimestamp("dataHoraFim")));
@@ -235,7 +235,7 @@ public class AtendimentoDao {
         } 
     }
     
-    public AtendimentoBean adicionaAtendimento(AtendimentoBean atendimento) throws SQLException, ClassNotFoundException
+    public Atendimento adicionaAtendimento(Atendimento atendimento) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -265,11 +265,11 @@ public class AtendimentoDao {
         }
     }
     
-    public AtendimentoBean retornaAtendimentoPorId(int id) throws SQLException, ClassNotFoundException
+    public Atendimento retornaAtendimentoPorId(int id) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
-        AtendimentoBean atendimento = new AtendimentoBean();
+        Atendimento atendimento = new Atendimento();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectById);
@@ -301,7 +301,7 @@ public class AtendimentoDao {
         }  
     }
     
-    public boolean modificaAtendimento(AtendimentoBean atendimento) throws SQLException, ClassNotFoundException
+    public boolean modificaAtendimento(Atendimento atendimento) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -312,7 +312,7 @@ public class AtendimentoDao {
             pstm.setInt(2, atendimento.getFuncionario().getIdFuncionario());
             pstm.setInt(3, atendimento.getProduto().getIdProduto());
             pstm.setInt(4, atendimento.getTipoAtendimento().getIdTipo());
-            pstm.setInt(5, 2); // SituacaoBean Fechada
+            pstm.setInt(5, 2); // Situacao Fechada
             pstm.setTimestamp(6, new Timestamp(atendimento.getDataHoraInicio().getTimeInMillis()));
             pstm.setTimestamp(7, new Timestamp(atendimento.getDataHoraFim().getTimeInMillis()));
             pstm.setString(8, atendimento.getReclamacao());
@@ -327,7 +327,7 @@ public class AtendimentoDao {
         }  
     }
     
-    public boolean removeAtendimento(AtendimentoBean atendimento) throws SQLException, ClassNotFoundException
+    public boolean removeAtendimento(Atendimento atendimento) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;

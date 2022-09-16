@@ -5,8 +5,8 @@
  */
 package com.ufpr.tads.web2.dao;
 
-import com.ufpr.tads.web2.beans.FuncionarioBean;
-import com.ufpr.tads.web2.beans.PessoaBean;
+import com.ufpr.tads.web2.beans.Funcionario;
+import com.ufpr.tads.web2.beans.Pessoa;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,11 +31,11 @@ public class FuncionarioDao {
         this.connectionFactory = conFactory;
     }
     
-    public FuncionarioBean logaFuncionario(String login, String senha) throws SQLException, ClassNotFoundException
+    public Funcionario logaFuncionario(String login, String senha) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
-        FuncionarioBean funcionario = new FuncionarioBean();
+        Funcionario funcionario = new Funcionario();
         try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(findLogin);
@@ -45,7 +45,7 @@ public class FuncionarioDao {
             
             while (rs.next()) {
                 PessoaDao pessoaDao = new PessoaDao();
-                PessoaBean pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
+                Pessoa pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
                 funcionario.setIdFuncionario(rs.getInt("idFuncionario"));
                 funcionario.setEmail(rs.getString("email"));
                 funcionario.setSenha(rs.getString("senha"));
@@ -63,25 +63,25 @@ public class FuncionarioDao {
         }
     }
     
-    public ArrayList<FuncionarioBean> retornaListaFuncionarios() throws SQLException, ClassNotFoundException
+    public ArrayList<Funcionario> retornaListaFuncionarios() throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        ArrayList<FuncionarioBean> funcionarios = new ArrayList<>();
+        ArrayList<Funcionario> funcionarios = new ArrayList<>();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(select);
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
-                FuncionarioBean funcionario = new FuncionarioBean();
+                Funcionario funcionario = new Funcionario();
                 funcionario.setIdFuncionario(rs.getInt("idFuncionario"));
                 funcionario.setEmail(rs.getString("email"));
                 funcionario.setSenha(rs.getString("senha"));
                 
                 PessoaDao pessoaDao = new PessoaDao();
-                PessoaBean pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
+                Pessoa pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
                 funcionario.setIdPessoa(pessoa.getIdPessoa());
                 funcionario.setPrimeiroNome(pessoa.getPrimeiroNome());
                 funcionario.setSobreNome(pessoa.getSobreNome());
@@ -97,7 +97,7 @@ public class FuncionarioDao {
         }  
     }
     
-    public FuncionarioBean adicionaFuncionario(FuncionarioBean funcionario) throws SQLException, ClassNotFoundException
+    public Funcionario adicionaFuncionario(Funcionario funcionario) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -105,8 +105,8 @@ public class FuncionarioDao {
             con = ConnectionFactory.getConnection();
             
             PessoaDao pessoaDao = new PessoaDao();
-            PessoaBean pessoaFuncionario = funcionario;
-            PessoaBean pessoaNovo = pessoaDao.adicionaPessoa(pessoaFuncionario);
+            Pessoa pessoaFuncionario = funcionario;
+            Pessoa pessoaNovo = pessoaDao.adicionaPessoa(pessoaFuncionario);
             
             pstm = con.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             pstm.setInt(1, pessoaNovo.getIdPessoa());
@@ -129,11 +129,11 @@ public class FuncionarioDao {
         }
     }
     
-    public FuncionarioBean retornaFuncionarioPorId(int id) throws SQLException, ClassNotFoundException
+    public Funcionario retornaFuncionarioPorId(int id) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
-        FuncionarioBean funcionario = new FuncionarioBean();
+        Funcionario funcionario = new Funcionario();
         try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectById);
@@ -146,7 +146,7 @@ public class FuncionarioDao {
                 funcionario.setSenha(rs.getString("senha"));
                 
                 PessoaDao pessoaDao = new PessoaDao();
-                PessoaBean pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
+                Pessoa pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
                 funcionario.setIdPessoa(pessoa.getIdPessoa());
                 funcionario.setPrimeiroNome(pessoa.getPrimeiroNome());
                 funcionario.setSobreNome(pessoa.getSobreNome());
@@ -161,7 +161,7 @@ public class FuncionarioDao {
         }
     }
     
-    public boolean modificaFuncionario(FuncionarioBean funcionario) throws SQLException, ClassNotFoundException
+    public boolean modificaFuncionario(Funcionario funcionario) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -169,7 +169,7 @@ public class FuncionarioDao {
             con = ConnectionFactory.getConnection();
             
             PessoaDao pessoaDao = new PessoaDao();
-            PessoaBean pessoaFuncionario = funcionario;
+            Pessoa pessoaFuncionario = funcionario;
             pessoaDao.modificaPessoa(pessoaFuncionario);
             
             pstm = con.prepareStatement(update);
@@ -183,7 +183,7 @@ public class FuncionarioDao {
         }
     }
     
-    public boolean removeFuncionario(FuncionarioBean funcionario) throws SQLException, ClassNotFoundException
+    public boolean removeFuncionario(Funcionario funcionario) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -194,7 +194,7 @@ public class FuncionarioDao {
             int i = pstm.executeUpdate();
             
             PessoaDao pessoaDao = new PessoaDao();
-            PessoaBean pessoaFuncionario = funcionario;
+            Pessoa pessoaFuncionario = funcionario;
             pessoaDao.removePessoa(pessoaFuncionario);
             
             return i > 0;

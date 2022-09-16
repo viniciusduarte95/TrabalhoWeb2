@@ -8,27 +8,27 @@ package com.ufpr.tads.web2.facade;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.ufpr.tads.web2.beans.AtendimentoBean;
-import com.ufpr.tads.web2.beans.ClienteBean;
-import com.ufpr.tads.web2.beans.FuncionarioBean;
-import com.ufpr.tads.web2.beans.SituacaoBean;
+import com.ufpr.tads.web2.beans.Atendimento;
+import com.ufpr.tads.web2.beans.Cliente;
+import com.ufpr.tads.web2.beans.Funcionario;
+import com.ufpr.tads.web2.beans.Situacao;
 import com.ufpr.tads.web2.dao.AtendimentoDao;
 
 public class AtendimentoFacade {
-    public static ArrayList<AtendimentoBean> getLista() throws AtendimentoException {
+    public static ArrayList<Atendimento> getLista() throws AtendimentoException {
         try {
             AtendimentoDao atendimentoDao = new AtendimentoDao();
-            ArrayList<AtendimentoBean> listaAtendimentos = atendimentoDao.retornaTodosAtendimentos();
+            ArrayList<Atendimento> listaAtendimentos = atendimentoDao.retornaTodosAtendimentos();
             return listaAtendimentos;
         } catch (SQLException | ClassNotFoundException e) {
             throw new AtendimentoException("Erro ao retornar lista de atendimentos", e);
         }
     }
 
-    public static ArrayList<AtendimentoBean> getListaPorCliente(ClienteBean cliente) throws AtendimentoException {
+    public static ArrayList<Atendimento> getListaPorCliente(Cliente cliente) throws AtendimentoException {
         try {
             AtendimentoDao atendimentoDao = new AtendimentoDao();
-            ArrayList<AtendimentoBean> listaAtendimentosPorCliente = atendimentoDao.retornaAtendimentosPorCliente(cliente);
+            ArrayList<Atendimento> listaAtendimentosPorCliente = atendimentoDao.retornaAtendimentosPorCliente(cliente);
             return listaAtendimentosPorCliente;
         } catch (SQLException | ClassNotFoundException e) {
             throw new AtendimentoException(
@@ -36,10 +36,10 @@ public class AtendimentoFacade {
         }
     }
 
-    public static ArrayList<AtendimentoBean> getListaPorFuncionario(FuncionarioBean funcionario) throws AtendimentoException {
+    public static ArrayList<Atendimento> getListaPorFuncionario(Funcionario funcionario) throws AtendimentoException {
         try {
             AtendimentoDao atendimentoDao = new AtendimentoDao();
-            ArrayList<AtendimentoBean> listaAtendimentosPorFuncionario = atendimentoDao
+            ArrayList<Atendimento> listaAtendimentosPorFuncionario = atendimentoDao
                     .retornaAtendimentosPorFuncionario(funcionario);
             return listaAtendimentosPorFuncionario;
         } catch (SQLException | ClassNotFoundException e) {
@@ -48,10 +48,10 @@ public class AtendimentoFacade {
         }
     }
 
-    public static ArrayList<AtendimentoBean> getListaPorSituacao(SituacaoBean situacao) throws AtendimentoException {
+    public static ArrayList<Atendimento> getListaPorSituacao(Situacao situacao) throws AtendimentoException {
         try {
             AtendimentoDao atendimentoDao = new AtendimentoDao();
-            ArrayList<AtendimentoBean> listaAtendimentosPorSituacao = atendimentoDao
+            ArrayList<Atendimento> listaAtendimentosPorSituacao = atendimentoDao
                     .retornaAtendimentosPorSituacao(situacao);
             return listaAtendimentosPorSituacao;
         } catch (SQLException | ClassNotFoundException e) {
@@ -60,27 +60,27 @@ public class AtendimentoFacade {
         }
     }
 
-    public static AtendimentoBean adicionaAtendimento(AtendimentoBean atendimento) throws AtendimentoException {
+    public static Atendimento adicionaAtendimento(Atendimento atendimento) throws AtendimentoException {
         try {
             AtendimentoDao atendimentoDao = new AtendimentoDao();
-            AtendimentoBean atendimentoNovo = atendimentoDao.adicionaAtendimento(atendimento);
+            Atendimento atendimentoNovo = atendimentoDao.adicionaAtendimento(atendimento);
             return atendimentoNovo;
         } catch (SQLException | ClassNotFoundException e) {
             throw new AtendimentoException("Erro ao adicionar atendimento", e);
         }
     }
 
-    public static AtendimentoBean retornaAtendimento(int id) throws AtendimentoException {
+    public static Atendimento retornaAtendimento(int id) throws AtendimentoException {
         try {
             AtendimentoDao atendimentoDao = new AtendimentoDao();
-            AtendimentoBean atendimento = atendimentoDao.retornaAtendimentoPorId(id);
+            Atendimento atendimento = atendimentoDao.retornaAtendimentoPorId(id);
             return atendimento;
         } catch (SQLException | ClassNotFoundException e) {
             throw new AtendimentoException("Erro ao buscar atendimento de id: " + id, e);
         }
     }
 
-    public static boolean modificaAtendimento(AtendimentoBean atendimento) throws AtendimentoException {
+    public static boolean modificaAtendimento(Atendimento atendimento) throws AtendimentoException {
         try {
             AtendimentoDao atendimentoDao = new AtendimentoDao();
             boolean confereModificacao = atendimentoDao.modificaAtendimento(atendimento);
@@ -91,7 +91,7 @@ public class AtendimentoFacade {
         }
     }
 
-    public static boolean removerAtendimento(AtendimentoBean atendimento) throws AtendimentoException {
+    public static boolean removerAtendimento(Atendimento atendimento) throws AtendimentoException {
         try {
             AtendimentoDao atendimentoDao = new AtendimentoDao();
             boolean confereRemocao = atendimentoDao.removeAtendimento(atendimento);

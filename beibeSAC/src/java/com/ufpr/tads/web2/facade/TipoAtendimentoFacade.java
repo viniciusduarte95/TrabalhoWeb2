@@ -5,19 +5,19 @@
  */
 package com.ufpr.tads.web2.facade;
 
-import com.ufpr.tads.web2.beans.TipoAtendimentoBean;
+import com.ufpr.tads.web2.beans.TipoAtendimento;
 import com.ufpr.tads.web2.dao.TipoAtendimentoDao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 
 public class TipoAtendimentoFacade {
-    public static ArrayList<TipoAtendimentoBean> getLista() throws TipoAtendimentoException
+    public static ArrayList<TipoAtendimento> getLista() throws TipoAtendimentoException
     {
         try
         {
             TipoAtendimentoDao tipoAtendimentoDao = new TipoAtendimentoDao();
-            ArrayList<TipoAtendimentoBean> listaTiposAtendimento =  tipoAtendimentoDao.retornaListaTipoAtendimentos();
+            ArrayList<TipoAtendimento> listaTiposAtendimento =  tipoAtendimentoDao.retornaListaTipoAtendimentos();
             return listaTiposAtendimento;
         }
         catch(SQLException | ClassNotFoundException e)
@@ -26,12 +26,12 @@ public class TipoAtendimentoFacade {
         }
     }
     
-    public static TipoAtendimentoBean retornaTipoAtendimento(int id) throws TipoAtendimentoException
+    public static TipoAtendimento retornaTipoAtendimento(int id) throws TipoAtendimentoException
     {
         try
         {
             TipoAtendimentoDao tipoAtendimentoDao = new TipoAtendimentoDao();
-            TipoAtendimentoBean tipoAtendimento = tipoAtendimentoDao.retornaTipoAtendimentoPorId(id);
+            TipoAtendimento tipoAtendimento = tipoAtendimentoDao.retornaTipoAtendimentoPorId(id);
             return tipoAtendimento;
         }
         catch(SQLException | ClassNotFoundException e)

@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.ufpr.tads.web2.beans.AtendimentoBean"%>
+<%@page import="com.ufpr.tads.web2.beans.Atendimento"%>
 <%@page errorPage = "/erro.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -38,18 +38,18 @@
             </div>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/GerenteController?action=portal">Home</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/GerenteServlet?action=portal">Home</a>
                 </li>
                 <li class="nav-item">
-                     <a class="nav-link" href="${pageContext.request.contextPath}/GerenteController?action=todosCadastrados">Colaboradores</a>
+                     <a class="nav-link" href="${pageContext.request.contextPath}/GerenteServlet?action=todosCadastrados">Colaboradores</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/GerenteController?action=telaRelatorios">Relatórios</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/GerenteServlet?action=telaRelatorios">Relatórios</a>
                 </li>
             </ul>
         </nav>
         <div class="container">
-            <a href="${pageContext.request.contextPath}/LogoutController">
+            <a href="${pageContext.request.contextPath}/LogoutServlet">
                 <br> <button type="button" class="btn btn-danger">Sair</button>
             </a>
             <div class="container">

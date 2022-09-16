@@ -2,7 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.ufpr.tads.web2.beans.ClienteBean"%>
+<%@page import="com.ufpr.tads.web2.beans.Cliente"%>
 <%@page errorPage = "/erro.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -31,13 +31,13 @@
                  title=" "
                 />
             </div>
-            <a href="${pageContext.request.contextPath}/LogoutController" class="float-right btn btn-danger rounded">Voltar</a>
+            <a href="${pageContext.request.contextPath}/LogoutServlet" class="float-right btn btn-danger rounded">Voltar</a>
           </nav>   
           
           <div class="container">
               <div class="col-md-16">
                <h1 class="mt-4">Autocadastro</h1>
-               <form class="needs-validation shadow-lg p-3 mb-5 bg-body rounded mt-4" novalidate action="${pageContext.request.contextPath}/AutoCadastroController" method="post">  
+               <form class="needs-validation shadow-lg p-3 mb-5 bg-body rounded mt-4" novalidate action="${pageContext.request.contextPath}/AutoCadastroServlet" method="post">  
                 <hr class="featurette-divider">
                 <h3>Dados de Login</h3>
                 <hr class="featurette-divider"><br>  

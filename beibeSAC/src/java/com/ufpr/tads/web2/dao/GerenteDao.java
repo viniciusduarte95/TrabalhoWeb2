@@ -5,8 +5,8 @@
  */
 package com.ufpr.tads.web2.dao;
 
-import com.ufpr.tads.web2.beans.GerenteBean;
-import com.ufpr.tads.web2.beans.PessoaBean;
+import com.ufpr.tads.web2.beans.Gerente;
+import com.ufpr.tads.web2.beans.Pessoa;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,11 +31,11 @@ public class GerenteDao {
         this.connectionFactory = conFactory;
     }
     
-    public GerenteBean logaGerente(String login, String senha) throws SQLException, ClassNotFoundException
+    public Gerente logaGerente(String login, String senha) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
-        GerenteBean gerente = new GerenteBean();
+        Gerente gerente = new Gerente();
         try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(findLogin);
@@ -45,7 +45,7 @@ public class GerenteDao {
             
             while (rs.next()) {
                 PessoaDao pessoaDao = new PessoaDao();
-                PessoaBean pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));                
+                Pessoa pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));                
                 gerente.setIdGerente(rs.getInt("idGerente"));
                 gerente.setEmail(rs.getString("email"));
                 gerente.setSenha(rs.getString("senha"));
@@ -63,25 +63,25 @@ public class GerenteDao {
         }
     }
 
-    public ArrayList<GerenteBean> retornaListaGerentes() throws SQLException, ClassNotFoundException
+    public ArrayList<Gerente> retornaListaGerentes() throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        ArrayList<GerenteBean> gerentes = new ArrayList<>();
+        ArrayList<Gerente> gerentes = new ArrayList<>();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(select);
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
-                GerenteBean gerente = new GerenteBean();
+                Gerente gerente = new Gerente();
                 gerente.setIdGerente(rs.getInt("idGerente"));
                 gerente.setEmail(rs.getString("email"));
                 gerente.setSenha(rs.getString("senha"));
                 
                 PessoaDao pessoaDao = new PessoaDao();
-                PessoaBean pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
+                Pessoa pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
                 gerente.setIdPessoa(pessoa.getIdPessoa());
                 gerente.setPrimeiroNome(pessoa.getPrimeiroNome());
                 gerente.setSobreNome(pessoa.getSobreNome());
@@ -97,7 +97,7 @@ public class GerenteDao {
         }
     }
     
-    public GerenteBean adicionaGerente(GerenteBean gerente) throws SQLException, ClassNotFoundException
+    public Gerente adicionaGerente(Gerente gerente) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -105,8 +105,8 @@ public class GerenteDao {
             con = ConnectionFactory.getConnection();
             
             PessoaDao pessoaDao = new PessoaDao();
-            PessoaBean pessoaGerente = gerente;
-            PessoaBean pessoaNovo = pessoaDao.adicionaPessoa(pessoaGerente);
+            Pessoa pessoaGerente = gerente;
+            Pessoa pessoaNovo = pessoaDao.adicionaPessoa(pessoaGerente);
             
             pstm = con.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             pstm.setInt(1, pessoaNovo.getIdPessoa());
@@ -129,11 +129,11 @@ public class GerenteDao {
         }
     }
     
-    public GerenteBean retornaGerentePorId(int id) throws SQLException, ClassNotFoundException
+    public Gerente retornaGerentePorId(int id) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
-        GerenteBean gerente = new GerenteBean();
+        Gerente gerente = new Gerente();
         try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectById);
@@ -146,7 +146,7 @@ public class GerenteDao {
                 gerente.setSenha(rs.getString("senha"));
                 
                 PessoaDao pessoaDao = new PessoaDao();
-                PessoaBean pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
+                Pessoa pessoa = pessoaDao.retornaPessoaPorId(rs.getInt("idPessoa"));
                 gerente.setIdPessoa(pessoa.getIdPessoa());
                 gerente.setPrimeiroNome(pessoa.getPrimeiroNome());
                 gerente.setSobreNome(pessoa.getSobreNome());
@@ -161,7 +161,7 @@ public class GerenteDao {
         }
     }
     
-    public boolean modificaGerente(GerenteBean gerente) throws SQLException, ClassNotFoundException
+    public boolean modificaGerente(Gerente gerente) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -169,7 +169,7 @@ public class GerenteDao {
             con = ConnectionFactory.getConnection();
             
             PessoaDao pessoaDao = new PessoaDao();
-            PessoaBean pessoaGerente = gerente;
+            Pessoa pessoaGerente = gerente;
             pessoaDao.modificaPessoa(pessoaGerente);
             
             pstm = con.prepareStatement(update);
@@ -183,7 +183,7 @@ public class GerenteDao {
         }
     }
 
-    public boolean removeGerente(GerenteBean gerente) throws SQLException, ClassNotFoundException
+    public boolean removeGerente(Gerente gerente) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -194,7 +194,7 @@ public class GerenteDao {
             int i = pstm.executeUpdate();
             
             PessoaDao pessoaDao = new PessoaDao();
-            PessoaBean pessoaGerente = gerente;
+            Pessoa pessoaGerente = gerente;
             pessoaDao.removePessoa(pessoaGerente);
             
             return i > 0;

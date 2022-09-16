@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.ufpr.tads.web2.beans.AtendimentoBean"%>
+<%@page import="com.ufpr.tads.web2.beans.Atendimento"%>
 <%@page errorPage = "/erro.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -36,7 +36,7 @@
                  title=" "
                 />
             </div>
-            <a href="${pageContext.request.contextPath}/FuncionarioController?action=portal"class="float-right btn btn-danger rounded">Voltar</a>
+            <a href="${pageContext.request.contextPath}/FuncionarioServlet?action=portal"class="float-right btn btn-danger rounded">Voltar</a>
           </nav> 
         <div class="container">
             </br>
@@ -76,10 +76,10 @@
                             <td><fmt:formatDate value="${atendimento.dataHoraInicio.getTime()}" pattern="dd/MM/yyyy HH:mm"/></td>
                             <td>
                                 <c:if test="${atendimento.situacao.idSituacao == 1}">
-                                    <a href="${pageContext.request.contextPath}/FuncionarioController?action=formResolverAtendimento&idAtendimento=${atendimento.idAtendimento}"><button class="btn btn-success btn btn-block">Resolver</button></a>
+                                    <a href="${pageContext.request.contextPath}/FuncionarioServlet?action=formResolverAtendimento&idAtendimento=${atendimento.idAtendimento}"><button class="btn btn-success btn btn-block">Resolver</button></a>
                                 </c:if>
                                 <c:if test="${atendimento.situacao.idSituacao == 2}">
-                                    <a href="${pageContext.request.contextPath}/FuncionarioController?action=formResolverAtendimento&idAtendimento=${atendimento.idAtendimento}"><button class="btn btn-info btn btn-block">Visualizar</button></a>
+                                    <a href="${pageContext.request.contextPath}/FuncionarioServlet?action=formResolverAtendimento&idAtendimento=${atendimento.idAtendimento}"><button class="btn btn-info btn btn-block">Visualizar</button></a>
                                 </c:if>
                             </td>
                         </tr>

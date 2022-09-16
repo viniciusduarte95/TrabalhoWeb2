@@ -1,6 +1,13 @@
-package com.ufpr.tads.web2.controller;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.ufpr.tads.web2.servlets;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -8,10 +15,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import com.ufpr.tads.web2.beans.CidadeBean;
-import com.ufpr.tads.web2.beans.ClienteBean;
-import com.ufpr.tads.web2.beans.EnderecoBean;
-import com.ufpr.tads.web2.beans.EstadoBean;
+import jakarta.servlet.http.HttpSession;
+
+import com.ufpr.tads.web2.beans.Cidade;
+import com.ufpr.tads.web2.beans.Cliente;
+import com.ufpr.tads.web2.beans.Endereco;
+import com.ufpr.tads.web2.beans.Estado;
 import com.ufpr.tads.web2.facade.CidadeException;
 import com.ufpr.tads.web2.facade.CidadeFacade;
 import com.ufpr.tads.web2.facade.ClienteException;
@@ -21,9 +30,18 @@ import com.ufpr.tads.web2.facade.EstadoFacade;
 import com.ufpr.tads.web2.facade.Ferramentas;
 import com.ufpr.tads.web2.facade.FerramentasException;
 
-@WebServlet(name = "AutoCadastroController", urlPatterns = { "/AutoCadastroController" })
-public class CadastroController extends HttpServlet {
+@WebServlet(name = "AutoCadastroServlet", urlPatterns = { "/AutoCadastroServlet" })
+public class AutoCadastroServlet extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request  servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -33,10 +51,10 @@ public class CadastroController extends HttpServlet {
             request.setCharacterEncoding("UTF-8");
 
             try {
-                //definindo o endereço do cadastro
-                EnderecoBean endereco = new EnderecoBean();
-                EstadoBean estado = EstadoFacade.retornaEstado(Integer.parseInt(request.getParameter("estado")));
-                CidadeBean cidade = CidadeFacade.retornaCidade(Integer.parseInt(request.getParameter("cidade")));
+                Endereco endereco = new Endereco();
+
+                Estado estado = EstadoFacade.retornaEstado(Integer.parseInt(request.getParameter("estado")));
+                Cidade cidade = CidadeFacade.retornaCidade(Integer.parseInt(request.getParameter("cidade")));
                 cidade.setEstado(estado);
                 endereco.setCidade(cidade);
                 endereco.setRua(request.getParameter("rua"));
@@ -44,17 +62,16 @@ public class CadastroController extends HttpServlet {
                 endereco.setBairro(request.getParameter("bairro"));
                 endereco.setCep(Integer.parseInt(request.getParameter("cep").replace(".", "").replace("-", "")));
                 endereco.setComplemento(request.getParameter("complemento"));
-                /*Instanciando o cliente e incluindo o endereço nele*/
-                ClienteBean cliente = new ClienteBean();
+
+                Cliente cliente = new Cliente();
                 cliente.setEndereco(endereco);
-                //incluindo as informalçoes do formulario no cliente instanciado
+
                 cliente.setPrimeiroNome(request.getParameter("primeiroNome"));
                 cliente.setSobreNome(request.getParameter("sobreNome"));
                 cliente.setTelefone(request.getParameter("telefone"));
                 cliente.setSenha(request.getParameter("senha"));
                 cliente.setCpf(Long.parseLong(request.getParameter("cpf").replace(".", "").replace("-", "")));
 
-                // Verifica se e-mail ja existe
                 boolean confereEmail = Ferramentas.confereEmail(request.getParameter("email"));
                 if (confereEmail) {
                     request.setAttribute("msg", "Email ja cadastrado na base de dados");
@@ -62,7 +79,7 @@ public class CadastroController extends HttpServlet {
                     rd.forward(request, response);
                 } else {
                     cliente.setEmail(request.getParameter("email"));
-                    ClienteBean novoCliente = ClienteFacade.adicionaCliente(cliente);
+                    Cliente novoCliente = ClienteFacade.adicionaCliente(cliente);
 
                     if (novoCliente != null) {
                         response.sendRedirect(request.getContextPath() + "/index.jsp");

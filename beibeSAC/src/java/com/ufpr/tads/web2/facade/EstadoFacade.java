@@ -5,7 +5,7 @@
  */
 package com.ufpr.tads.web2.facade;
 
-import com.ufpr.tads.web2.beans.EstadoBean;
+import com.ufpr.tads.web2.beans.Estado;
 import com.ufpr.tads.web2.dao.EstadoDao;
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -13,12 +13,12 @@ import java.util.ArrayList;
 
 
 public class EstadoFacade {
-    public static ArrayList<EstadoBean> getLista() throws EstadoException
+    public static ArrayList<Estado> getLista() throws EstadoException
     {
         try
         {
             EstadoDao estadoDao = new EstadoDao();
-            ArrayList<EstadoBean> listaEstados = estadoDao.retornaListaEstados();
+            ArrayList<Estado> listaEstados = estadoDao.retornaListaEstados();
             return listaEstados;
         }
         catch(SQLException | ClassNotFoundException e)
@@ -27,12 +27,12 @@ public class EstadoFacade {
         }
     }
     
-    public static EstadoBean retornaEstado(int id) throws EstadoException
+    public static Estado retornaEstado(int id) throws EstadoException
     {
         try
         {
             EstadoDao estadoDao = new EstadoDao();
-            EstadoBean estado = estadoDao.retornaEstadoPorId(id);
+            Estado estado = estadoDao.retornaEstadoPorId(id);
             return estado;
         }
         catch(SQLException | ClassNotFoundException e)

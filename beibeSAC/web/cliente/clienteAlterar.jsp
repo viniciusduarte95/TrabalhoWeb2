@@ -3,7 +3,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.ufpr.tads.web2.beans.ClienteBean"%>
+<%@page import="com.ufpr.tads.web2.beans.Cliente"%>
 <%@page errorPage = "/erro.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -36,12 +36,12 @@
                   title=" "
                 />
               </div>
-          <a href="${pageContext.request.contextPath}/ClienteController?action=portal" class="float-right btn btn-danger rounded">Voltar</a>
+          <a href="${pageContext.request.contextPath}/ClienteServlet?action=portal" class="float-right btn btn-danger rounded">Voltar</a>
         </nav>  
         <div class="container">
               <div class="col-md-16">
                <h1 class="title h1 m-0 mt-4 text-center">Insira seus dados</h1><br>
-                <form class="needs-validation shadow-lg p-3 mb-5 bg-body rounded mt-4" action="${pageContext.request.contextPath}/ClienteController?action=modificaCliente&idCliente=${cliente.getIdCliente()}"" method="post">     
+                <form class="needs-validation shadow-lg p-3 mb-5 bg-body rounded mt-4" action="${pageContext.request.contextPath}/ClienteServlet?action=modificaCliente&idCliente=${cliente.getIdCliente()}"" method="post">     
                     <div class="form-group">
                     <div class="row">
                         <div class="col-md-6 mb-3">

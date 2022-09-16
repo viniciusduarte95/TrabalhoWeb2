@@ -2,7 +2,7 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.ufpr.tads.web2.beans.AtendimentoBean"%>
+<%@page import="com.ufpr.tads.web2.beans.Atendimento"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page errorPage = "/erro.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -40,14 +40,14 @@
                  title=" "
                 />
             </div>
-            <a href="${pageContext.request.contextPath}/ClienteController?action=portal" class="float-right btn btn-danger rounded">Voltar</a>
+            <a href="${pageContext.request.contextPath}/ClienteServlet?action=portal" class="float-right btn btn-danger rounded">Voltar</a>
           </nav>  
         <div class="container">
           <div class="row login">
               <div class="col-md-12"> <br>
             <h2>Detalhes Atendimento </h2>
             <c:if test="${!empty atendimento}">
-                <form  class="needs-validation shadow-lg p-3 mb-5 bg-body rounded mt-4" action="${pageContext.request.contextPath}/ClienteController?action=mostraAtendimento&idAtendimento=${atendimento.idAtendimento}" method="post">
+                <form  class="needs-validation shadow-lg p-3 mb-5 bg-body rounded mt-4" action="${pageContext.request.contextPath}/ClienteServlet?action=mostraAtendimento&idAtendimento=${atendimento.idAtendimento}" method="post">
                     <label for="cpf">Produto</label>
                         <div class="input-group">
                             <div class="input-group-prepend">

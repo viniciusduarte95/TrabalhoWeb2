@@ -5,7 +5,7 @@
  */
 package com.ufpr.tads.web2.dao;
 
-import com.ufpr.tads.web2.beans.SituacaoBean;
+import com.ufpr.tads.web2.beans.Situacao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,19 +25,19 @@ public class SituacaoDao {
         this.connectionFactory = conFactory;
     }
     
-    public ArrayList<SituacaoBean> retornaListaSituacoes() throws SQLException, ClassNotFoundException
+    public ArrayList<Situacao> retornaListaSituacoes() throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        ArrayList<SituacaoBean> situacoes = new ArrayList<>();
+        ArrayList<Situacao> situacoes = new ArrayList<>();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(select);
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
-                SituacaoBean situacao = new SituacaoBean();
+                Situacao situacao = new Situacao();
                 situacao.setIdSituacao(rs.getInt("idSituacao"));
                 situacao.setEstado(rs.getString("estado"));
                 situacoes.add(situacao);
@@ -49,12 +49,12 @@ public class SituacaoDao {
         }
     }
     
-    public SituacaoBean retornaSituacaoPorId(int id) throws SQLException, ClassNotFoundException
+    public Situacao retornaSituacaoPorId(int id) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        SituacaoBean situacao = new SituacaoBean();
+        Situacao situacao = new Situacao();
         try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectById);

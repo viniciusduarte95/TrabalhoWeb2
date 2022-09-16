@@ -5,7 +5,7 @@
  */
 package com.ufpr.tads.web2.dao;
 
-import com.ufpr.tads.web2.beans.CategoriaProdutoBean;
+import com.ufpr.tads.web2.beans.CategoriaProduto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,19 +29,19 @@ public class CategoriaProdutoDao {
         this.connectionFactory = conFactory;
     }
     
-    public ArrayList<CategoriaProdutoBean> retornaListaCategorias() throws SQLException, ClassNotFoundException
+    public ArrayList<CategoriaProduto> retornaListaCategorias() throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        ArrayList<CategoriaProdutoBean> categorias = new ArrayList<>();
+        ArrayList<CategoriaProduto> categorias = new ArrayList<>();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(select);
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
-                CategoriaProdutoBean categoria = new CategoriaProdutoBean();
+                CategoriaProduto categoria = new CategoriaProduto();
                 categoria.setIdCategoria(rs.getInt("idCategoria"));
                 categoria.setNome(rs.getString("nome"));
                 categorias.add(categoria);
@@ -53,7 +53,7 @@ public class CategoriaProdutoDao {
         }
     }
     
-    public CategoriaProdutoBean adicionaCategoria(CategoriaProdutoBean categoria) throws SQLException, ClassNotFoundException
+    public CategoriaProduto adicionaCategoria(CategoriaProduto categoria) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -78,12 +78,12 @@ public class CategoriaProdutoDao {
         }
     }
     
-    public CategoriaProdutoBean retornaCategoriaPorId(int id) throws SQLException, ClassNotFoundException
+    public CategoriaProduto retornaCategoriaPorId(int id) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        CategoriaProdutoBean categoria = new CategoriaProdutoBean();
+        CategoriaProduto categoria = new CategoriaProduto();
         try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectById);
@@ -101,7 +101,7 @@ public class CategoriaProdutoDao {
         }
     }
     
-    public boolean modificaCategoria(CategoriaProdutoBean categoria) throws SQLException, ClassNotFoundException
+    public boolean modificaCategoria(CategoriaProduto categoria) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -118,7 +118,7 @@ public class CategoriaProdutoDao {
         }
     }
     
-    public boolean removeCategoria(CategoriaProdutoBean categoria) throws SQLException, ClassNotFoundException
+    public boolean removeCategoria(CategoriaProduto categoria) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;

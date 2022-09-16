@@ -5,7 +5,7 @@
  */
 package com.ufpr.tads.web2.dao;
 
-import com.ufpr.tads.web2.beans.TipoAtendimentoBean;
+import com.ufpr.tads.web2.beans.TipoAtendimento;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,19 +25,19 @@ public class TipoAtendimentoDao {
         this.connectionFactory = conFactory;
     }
     
-    public ArrayList<TipoAtendimentoBean> retornaListaTipoAtendimentos() throws SQLException, ClassNotFoundException
+    public ArrayList<TipoAtendimento> retornaListaTipoAtendimentos() throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        ArrayList<TipoAtendimentoBean> tiposAtendimento = new ArrayList<>();
+        ArrayList<TipoAtendimento> tiposAtendimento = new ArrayList<>();
          try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(select);
             ResultSet rs = pstm.executeQuery();
             
             while (rs.next()) {
-                TipoAtendimentoBean tipoAtendimento = new TipoAtendimentoBean();
+                TipoAtendimento tipoAtendimento = new TipoAtendimento();
                 tipoAtendimento.setIdTipo(rs.getInt("idTipo"));
                 tipoAtendimento.setNome(rs.getString("nome"));
                 tiposAtendimento.add(tipoAtendimento);
@@ -49,12 +49,12 @@ public class TipoAtendimentoDao {
         }
     }
     
-    public TipoAtendimentoBean retornaTipoAtendimentoPorId(int id) throws SQLException, ClassNotFoundException
+    public TipoAtendimento retornaTipoAtendimentoPorId(int id) throws SQLException, ClassNotFoundException
     {
         Connection con = null;
         PreparedStatement pstm = null;
 
-        TipoAtendimentoBean tipoAtendimento = new TipoAtendimentoBean();
+        TipoAtendimento tipoAtendimento = new TipoAtendimento();
         try {
             con = ConnectionFactory.getConnection();
             pstm = con.prepareStatement(selectById);

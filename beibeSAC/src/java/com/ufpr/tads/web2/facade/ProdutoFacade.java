@@ -5,19 +5,19 @@
  */
 package com.ufpr.tads.web2.facade;
 
-import com.ufpr.tads.web2.beans.ProdutoBean;
+import com.ufpr.tads.web2.beans.Produto;
 import com.ufpr.tads.web2.dao.ProdutoDao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 
 public class ProdutoFacade {
-    public static ArrayList<ProdutoBean> getLista() throws ProdutoException
+    public static ArrayList<Produto> getLista() throws ProdutoException
     {
         try
         {
             ProdutoDao produtoDao = new ProdutoDao();
-            ArrayList<ProdutoBean> listaProdutos = produtoDao.retornaListaProdutos();
+            ArrayList<Produto> listaProdutos = produtoDao.retornaListaProdutos();
             return listaProdutos;
         }
         catch(SQLException | ClassNotFoundException e)
@@ -26,12 +26,12 @@ public class ProdutoFacade {
         }
     }
     
-    public static ProdutoBean adicionaProduto(ProdutoBean produto) throws ProdutoException
+    public static Produto adicionaProduto(Produto produto) throws ProdutoException
     {
         try
         {
             ProdutoDao produtoDao = new ProdutoDao();
-            ProdutoBean produtoNovo = produtoDao.adicionaProduto(produto);
+            Produto produtoNovo = produtoDao.adicionaProduto(produto);
             return produtoNovo;
         }
         catch(SQLException | ClassNotFoundException e)
@@ -40,12 +40,12 @@ public class ProdutoFacade {
         }
     }
     
-    public static ProdutoBean retornaProduto(int id) throws ProdutoException
+    public static Produto retornaProduto(int id) throws ProdutoException
     {
         try
         {
             ProdutoDao produtoDao = new ProdutoDao();
-            ProdutoBean produto = produtoDao.retornaProdutoPorId(id);
+            Produto produto = produtoDao.retornaProdutoPorId(id);
             return produto;
         }
         catch(SQLException | ClassNotFoundException e)
@@ -54,7 +54,7 @@ public class ProdutoFacade {
         }
     }
     
-    public static boolean modificaProduto(ProdutoBean produto) throws ProdutoException
+    public static boolean modificaProduto(Produto produto) throws ProdutoException
     {
         try
         {
@@ -69,7 +69,7 @@ public class ProdutoFacade {
         }
     }
     
-    public static boolean removerProduto(ProdutoBean produto) throws ProdutoException
+    public static boolean removerProduto(Produto produto) throws ProdutoException
     {
         try
         {

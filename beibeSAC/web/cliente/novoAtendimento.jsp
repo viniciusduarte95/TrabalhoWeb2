@@ -1,8 +1,9 @@
 
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="com.ufpr.tads.web2.beans.AtendimentoBean"%>
+<%@page import="com.ufpr.tads.web2.beans.Atendimento"%>
 <%@page errorPage = "/erro.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -38,13 +39,13 @@
                  title=" "
                 />
             </div>
-            <a href="${pageContext.request.contextPath}/ClienteController?action=portal" class="float-right btn btn-danger rounded">Voltar</a>
+            <a href="${pageContext.request.contextPath}/ClienteServlet?action=portal" class="float-right btn btn-danger rounded">Voltar</a>
           </nav>   
             <div class="container">
                 <div class="row login">
                     <div class="col-md-12"><br>
                         <h1 class="title h1 m-0 mt-4 text-center">Novo Atendimento</h1><br>
-                        <form class="needs-validation shadow-lg p-3 mb-5 bg-body rounded mt-4" method="post" action="${pageContext.request.contextPath}/ClienteController?action=novoAtendimento">     
+                        <form class="needs-validation shadow-lg p-3 mb-5 bg-body rounded mt-4" method="post" action="${pageContext.request.contextPath}/ClienteServlet?action=novoAtendimento">     
                             <input type="hidden" name="cliente" value="${cliente.id}"><br>
                             <div class="form-group">
                                 <div class="col-sm-12">
@@ -84,7 +85,7 @@
                                 <c:out value="${configuracao.email}" /> </a>
                             </div><br>
                             <br>
-                            <a href="${pageContext.request.contextPath}/ClienteController?action=novoAtendimento"><button type="submit" class="btn btn-success "> Cadastrar </button>
+                            <a href="${pageContext.request.contextPath}/ClienteServlet?action=novoAtendimento"><button type="submit" class="btn btn-success "> Cadastrar </button>
                         </form></div>
                 </div>   
             </div>          
