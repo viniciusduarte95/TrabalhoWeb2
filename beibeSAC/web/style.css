@@ -8,15 +8,7 @@ and open the template in the editor.
     Author     : jessi
 */
 
-body {
-  display: block;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  position: relative;
-  font-family: 'Roboto', helvetica, arial, sans-serif;
-  font-size: 1.5em;
-}
+
 body:before {
   content: '';
   position: absolute;

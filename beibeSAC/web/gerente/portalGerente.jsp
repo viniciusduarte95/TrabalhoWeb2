@@ -50,11 +50,11 @@
         </nav>
         <div class="container">
             <a href="${pageContext.request.contextPath}/LogoutServlet">
-                <br> <button type="button" class="btn btn-danger">Sair</button>
+                <br> <button type="button">Sair</button>
             </a>
             <div class="container">
                 </br>
-                <h3> Tipo de Atendimentos</h3>
+                <h3 class="text-center"> Tipo de Atendimentos</h3>
                 <hr>
                 <div class="row">
                     <div class="col-sm">
@@ -88,7 +88,7 @@
                         </div>
                     </div>
                 </div><br>
-                <h4> Visão Geral</h4>
+                <h4 class="text-center"> Visão Geral</h4>
                 <hr>
 
                 <div class="row">
